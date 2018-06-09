@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.vince7839.entity">
+    <class name="Task" table="task">
+         <id name="id" column="id">  
+            <generator class="increment" />
+        </id>  
+        <property name="toolVersion" type="string" column="tool_version" />
+        <property name="tester" type="string" column="tester" />
+        <property name="projectId" type="int" column="project_id" />
+        <property name="testId" type="int" column="test_id" />
+        <property name="status" type="int" column="status" />
+        <property name="startDate" type="date" column="start_date" />
+        <property name="endDate" type="date" column="end_date" />
+        <property name="summary" type="string" column="summary" />
+        <property name="failureCount" type="int" column="failure_count" />
+    </class>
+</hibernate-mapping>
