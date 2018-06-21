@@ -24,8 +24,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-  <display-name>CommunityManager</display-name>
-
+  <display-name>GmsServer</display-name>
 
   <!-- Filters -->
   <!-- START SNIPPET: filter -->
@@ -40,19 +39,18 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+
     <!-- Welcome file lists -->
     <welcome-file-list>
         <welcome-file>success.jsp</welcome-file>
     </welcome-file-list>
     
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener
-        </listener-class>
-    </listener>
-    
-      <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
-  </context-param>
-
 </web-app>

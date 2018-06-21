@@ -1,50 +1,65 @@
 package com.vince7839.action;
 
-import java.util.Map;
-
-import org.apache.struts2.dispatcher.HttpParameters;
-
-import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Platform;
 import com.vince7839.service.IPlatformService;
 
-public class PlatformAction extends BaseAction {
+public class PlatformAction extends BaseAction implements ModelDriven<Platform>{
 	IPlatformService service;
-	Platform platform;
-	public String work(int type) {
-		HttpParameters params = ActionContext.getContext().getParameters();
-		System.out.println("platform_get:"+params);
-		String name = params.get("name").getValue();
-		String idStr = params.get("id").getValue();
-		int id = 0;
-		if(idStr != null) {
-			id = Integer.parseInt(idStr);
+	Platform platform = new Platform();
+	
+	public String save() {
+		System.out.println(platform.getName());
+		String name = platform.getName();
+		if(name == null || name.length() < 3) {
+			buildJson(false,NAME_TOO_SHORT,null);
+			return FINISH;
 		}
-		Platform p =new Platform();
-		try {
-			if(type == SAVE) {								
-				p.setName(name);
-				service.save(p);				
-			}else if(type == DELETE) {
-				p.setId(id);
-				service.delete(p);
-			}else if(type == UPDATE) {
-				p.setId(id);
-				p.setName(name);
-				service.update(p);
-			}else if(type == GET) {
-				p.setId(id);
-				platform = service.get(id);	
-				return RESULT_GET;
-			}
-			result.put("result", "success");	
-		}catch(Exception e) {
-			e.printStackTrace();
-			result.put("result", "fail");			
+		if(service.isNameExists(platform.getName())) {
+			buildJson(false,NAME_EXIST,null);
+			return FINISH;
 		}
+		service.save(platform);
+		buildJson(true,NO_ERROR,null);
 		return FINISH;
 	}
-
+	
+	public String delete() {
+		Platform p = service.get(platform.getId());
+		if(p != null) {
+			service.delete(p);
+			buildJson(true,NO_ERROR,null);
+		}else {
+			buildJson(false,NO_SUCH_TARGET,null);
+		}	
+		return FINISH;
+	}
+	
+	public String update() {		
+		if(service.exists(platform.getId())) {
+			String name = platform.getName();
+			if(name != null && name.length() > 2) {
+				service.update(platform);
+			} else {
+				buildJson(false,NAME_TOO_SHORT,null);
+			}			
+		} else {
+			buildJson(false,NO_SUCH_TARGET,null);
+		}
+		buildJson(true,NO_ERROR,null);
+		return FINISH;
+	}
+	
+	public String get() {
+		platform = service.get(platform.getId());	
+		return GET;		
+	}
+	
+	public String all() {
+		buildJson(true,NO_ERROR,service.all());
+		return FINISH;	
+	}
+	
 	public IPlatformService getService() {
 		return service;
 	}
@@ -59,5 +74,11 @@ public class PlatformAction extends BaseAction {
 
 	public void setPlatform(Platform platform) {
 		this.platform = platform;
+	}
+
+	@Override
+	public Platform getModel() {
+		// TODO Auto-generated method stub
+		return platform;
 	}
 }

@@ -24,6 +24,9 @@
             <result name="get" type="json">
 				<param name="root">platform</param> 
             </result>
+            <result name="all" type="json">
+				<param name="root">list</param> 
+            </result>            
             <allowed-methods>save,delete,update,get,all</allowed-methods>
         </action>        
         
@@ -36,8 +39,11 @@
             </result>
             <result name="all" type="json">
 				<param name="root">list</param> 
-            </result>            
-            <allowed-methods>save,delete,update,get,all</allowed-methods>
+            </result>
+             <result name="input" type="json">
+             <param name="root">result</param> 
+             </result>
+            <allowed-methods>save,delete,update,get,all,order</allowed-methods>
         </action>
         
          <action name="test_*" class="testAction" method="{1}">
@@ -46,8 +52,11 @@
             </result>
             <result name="get" type="json">
 				<param name="root">test</param> 
+            </result>
+            <result name="all" type="json">
+				<param name="root">list</param> 
             </result>            
             <allowed-methods>save,delete,update,get,all</allowed-methods>
-        </action>
+            </action>
     </package>    
 </struts>

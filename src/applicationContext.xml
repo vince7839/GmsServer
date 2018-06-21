@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop.xsd       
+		">
 <bean id="dataSource"  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 	<property name="url" value="jdbc:mysql://localhost:3306/vince7839" />
@@ -21,7 +28,8 @@
 
 	<!-- 配置action，action交由spring管理 -->	
 <bean id="projectAction" class="com.vince7839.action.ProjectAction">
-	<property name="service" ref="projectService"></property>
+	<property name="projectService" ref="projectService"></property>
+	<property name="platformService" ref="platformService"></property>	
 </bean>
 
 <bean id="platformAction" class="com.vince7839.action.PlatformAction">
@@ -35,7 +43,7 @@
 </bean>
 
 <bean id="testAction" class="com.vince7839.action.TestAction">
-	<property name="service" ref="testService"></property>
+	<property name="testService" ref="testService"></property>
 </bean>
 	<!-- 配置service-->
 <bean id="projectService" class="com.vince7839.service.impl.ProjectServiceImpl">
@@ -76,5 +84,15 @@
 	class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 	<property name="sessionFactory" ref="sessionFactory" />
 </bean>
+<tx:advice id="txAdvice" transaction-manager="transactionManager">
+<tx:attributes>
+<tx:method name="*" propagation="REQUIRED" read-only="false"/>
+</tx:attributes>
+</tx:advice>
+
+<aop:config>
+<aop:pointcut id="allMethods" expression="execution(* com.vince7839.service.*.*(..))" />
+<aop:advisor advice-ref="txAdvice" pointcut-ref="allMethods" />
+</aop:config>
 
 </beans>

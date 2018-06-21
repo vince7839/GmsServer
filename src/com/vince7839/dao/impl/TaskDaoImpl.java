@@ -27,7 +27,7 @@ public class TaskDaoImpl extends HibernateDaoSupport implements ITaskDao {
 	}
 
 	@Override
-	public Task get(int id) {
+	public Task get(Integer id) {
 		// TODO Auto-generated method stub
 		return getHibernateTemplate().get(Task.class, id);
 	}
@@ -36,6 +36,14 @@ public class TaskDaoImpl extends HibernateDaoSupport implements ITaskDao {
 	public List<Task> all() {
 		// TODO Auto-generated method stub
 		return getHibernateTemplate().loadAll(Task.class);
+	}
+
+	@Override
+	public List<Task> getByStatus(Integer status) {
+		// TODO Auto-generated method stub
+		Task t = new Task();
+		t.setStatus(status);
+		return getHibernateTemplate().findByExample(t);
 	}
 
 }

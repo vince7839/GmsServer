@@ -27,7 +27,7 @@ public class TaskServiceImpl implements ITaskService {
 	}
 
 	@Override
-	public Task get(int id) {
+	public Task get(Integer id) {
 		// TODO Auto-generated method stub
 		return dao.get(id);
 	}
@@ -44,5 +44,17 @@ public class TaskServiceImpl implements ITaskService {
 	public List<Task> all() {
 		// TODO Auto-generated method stub
 		return dao.all();
+	}
+
+	@Override
+	public boolean exists(Integer id) {
+		// TODO Auto-generated method stub
+		 return get(id) != null;
+	}
+
+	@Override
+	public List<Task> listOrder() {
+		// TODO Auto-generated method stub
+		return dao.getByStatus(ITaskService.WAITING);
 	}
 }

@@ -27,7 +27,7 @@ public class ProjectDaoImpl extends HibernateDaoSupport implements IProjectDao {
 	}
 
 	@Override
-	public Project get(int id) {
+	public Project get(Integer id) {
 		// TODO Auto-generated method stub
 		return getHibernateTemplate().get(Project.class, id);
 	}
@@ -36,6 +36,14 @@ public class ProjectDaoImpl extends HibernateDaoSupport implements IProjectDao {
 	public List<Project> all() {
 		// TODO Auto-generated method stub
 		return getHibernateTemplate().loadAll(Project.class);
+	}
+
+	@Override
+	public List<Project> getByName(String name) {
+		// TODO Auto-generated method stub
+		Project p = new Project();
+		p.setName(name);
+		return getHibernateTemplate().findByExample(p);
 	}
 
 }

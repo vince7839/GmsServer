@@ -11,14 +11,13 @@
          <id name="id" column="id">  
             <generator class="increment" />
         </id>  
-        <property name="toolVersion" type="string" column="tool_version" />
-        <property name="tester" type="string" column="tester" />
         <property name="projectId" type="int" column="project_id" />
-        <property name="testId" type="int" column="test_id" />
         <property name="status" type="int" column="status" />
         <property name="startDate" type="date" column="start_date" />
+        <property name="expectDate" type="date" column="expect_date" />
         <property name="endDate" type="date" column="end_date" />
         <property name="summary" type="string" column="summary" />
-        <property name="failureCount" type="int" column="failure_count" />
+        <property name="softwareType" type="int" column="software_type" />
+        <property name="tag" type="int" column="tag" />
     </class>
 </hibernate-mapping>

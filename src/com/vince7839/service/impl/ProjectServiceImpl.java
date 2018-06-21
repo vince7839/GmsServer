@@ -21,7 +21,7 @@ public class ProjectServiceImpl implements IProjectService{
 	}
 
 	@Override
-	public Project get(int id) {
+	public Project get(Integer id) {
 		// TODO Auto-generated method stub
 		return dao.get(id);
 	}
@@ -44,6 +44,18 @@ public class ProjectServiceImpl implements IProjectService{
 	public List<Project> all() {
 		// TODO Auto-generated method stub
 		return dao.all();
+	}
+
+	@Override
+	public boolean exists(Integer id) {
+		// TODO Auto-generated method stub
+		return get(id) != null;
+	}
+
+	@Override
+	public boolean isNameExists(String name) {
+		// TODO Auto-generated method stub
+		return !dao.getByName(name).isEmpty();
 	}
 
 }

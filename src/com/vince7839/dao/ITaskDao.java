@@ -8,6 +8,7 @@ public interface ITaskDao {
 	void save(Task t);
 	void delete(Task t);
 	void update(Task t);
-	Task get(int id);
+	Task get(Integer id);
 	List<Task> all();
+	List<Task> getByStatus(Integer status);
 }

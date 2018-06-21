@@ -3,58 +3,15 @@ package com.vince7839.entity;
 import java.sql.Date;
 
 public class Task {
-	int id;
-	int projectId;
-	int testId;
-	int failureCount;
-	int status;
-	String toolVersion;
-	String tester;
+	Integer id;
+	Integer projectId;
+	Integer status;
+	Integer tag;
+	Integer softwareType;
 	String summary;
 	Date startDate;
+	Date expectDate;
 	Date endDate;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getProjectId() {
-		return projectId;
-	}
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
-	}
-	public int getTestId() {
-		return testId;
-	}
-	public void setTestId(int testId) {
-		this.testId = testId;
-	}
-	public int getFailureCount() {
-		return failureCount;
-	}
-	public void setFailureCount(int failureCount) {
-		this.failureCount = failureCount;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	public String getToolVersion() {
-		return toolVersion;
-	}
-	public void setToolVersion(String toolVersion) {
-		this.toolVersion = toolVersion;
-	}
-	public String getTester() {
-		return tester;
-	}
-	public void setTester(String tester) {
-		this.tester = tester;
-	}
 	public String getSummary() {
 		return summary;
 	}
@@ -73,4 +30,47 @@ public class Task {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	public Date getExpectDate() {
+		return expectDate;
+	}
+	public void setExpectDate(Date expectDate) {
+		this.expectDate = expectDate;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Integer getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	public Integer getSoftwareType() {
+		return softwareType;
+	}
+	public void setSoftwareType(Integer softwareType) {
+		this.softwareType = softwareType;
+	}
+	public Integer getTag() {
+		return tag;
+	}
+	public void setTag(Integer tag) {
+		this.tag = tag;
+	}
+	@Override
+	public String toString() {
+		return "Task [id=" + id + ", projectId=" + projectId + ", status=" + status + ", tag=" + tag + ", softwareType="
+				+ softwareType + ", summary=" + summary + ", startDate=" + startDate + ", expectDate=" + expectDate
+				+ ", endDate=" + endDate + "]";
+	}
+	
 }

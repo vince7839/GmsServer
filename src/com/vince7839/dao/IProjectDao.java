@@ -8,6 +8,7 @@ public interface IProjectDao {
 	void save(Project p);
 	void delete(Project p);
 	void update(Project p);
-	Project get(int id);
+	Project get(Integer id);
 	List<Project> all();
+	List<Project> getByName(String name);
 }

@@ -3,58 +3,83 @@ package com.vince7839.action;
 import org.apache.struts2.dispatcher.HttpParameters;
 
 import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Test;
 import com.vince7839.service.ITestService;
 
-public class TestAction extends BaseAction {
-	ITestService service;
-	Test test;
-	public String work(int type) {
-		HttpParameters params = ActionContext.getContext().getParameters();
-		System.out.println("test:"+params);
-		String name = params.get("name").getValue();
-		String idStr = params.get("id").getValue();
-		int id = 0;
-		if(idStr != null) {
-			id = Integer.parseInt(idStr);
+public class TestAction extends BaseAction implements ModelDriven<Test>{
+	ITestService testService;
+	Test test = new Test();
+	
+	public String save() {
+		String name = test.getName();
+		if(name == null || name.length() < 3) {
+			buildJson(false,NAME_TOO_SHORT,null);
+			return FINISH;
 		}
-		Test t =new Test();
-		try {
-			if(type == SAVE) {								
-				t.setName(name);
-				service.save(t);				
-			}else if(type == DELETE) {
-				t.setId(id);
-				service.delete(t);
-			}else if(type == UPDATE) {
-				t.setName(name);
-				service.update(t);
-			}else if(type == GET) {
-				t.setId(id);
-				test = service.get(id);	
-				return RESULT_GET;
-			}
-			result.put("result", "success");	
-		}catch(Exception e) {
-			e.printStackTrace();
-			result.put("result", "fail");			
+		if(testService.isNameExists(name)) {
+			buildJson(false,NAME_EXIST,null);
+			return FINISH;
+		}
+		testService.save(test);
+		buildJson(true,NO_ERROR,null);
+		return FINISH;
+	}
+	
+	public String delete() {
+		if(testService.exists(test.getId())) {
+			testService.delete(test);
+			buildJson(true,NO_ERROR,null);
+		} else {
+			result.put(FAIL, "no such test");
 		}
 		return FINISH;
 	}
-
-	public ITestService getService() {
-		return service;
+	
+	public String update() {
+		if(!testService.exists(test.getId())) {
+			buildJson(false,NO_SUCH_TARGET,null);
+			return FINISH;
+		}
+		String name = test.getName();
+		if(name != null && name.length() > 2) {
+			buildJson(false,NAME_TOO_SHORT,null);	
+			return FINISH;
+		}
+		testService.update(test);
+		buildJson(true,NO_ERROR,null);
+		return FINISH;
 	}
-
-	public void setService(ITestService service) {
-		this.service = service;
+	
+	public String get() {
+		test = testService.get(test.getId());
+		return GET;
 	}
-
+	
+	public String all() {
+		buildJson(true,NO_ERROR,testService.all());
+		return FINISH;
+	}
+	
 	public Test getTest() {
 		return test;
 	}
 
 	public void setTest(Test test) {
 		this.test = test;
+	}
+
+	@Override
+	public Test getModel() {
+		// TODO Auto-generated method stub
+		return test;
+	}
+
+	public ITestService getTestService() {
+		return testService;
+	}
+
+	public void setTestService(ITestService testService) {
+		this.testService = testService;
 	}
 }

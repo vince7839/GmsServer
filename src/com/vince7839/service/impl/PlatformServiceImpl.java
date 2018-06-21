@@ -1,5 +1,7 @@
 package com.vince7839.service.impl;
 
+import java.util.List;
+
 import com.vince7839.dao.IPlatformDao;
 import com.vince7839.entity.Platform;
 import com.vince7839.service.IPlatformService;
@@ -25,7 +27,7 @@ public class PlatformServiceImpl implements IPlatformService {
 	}
 
 	@Override
-	public Platform get(int id) {
+	public Platform get(Integer id) {
 		// TODO Auto-generated method stub
 		return dao.get(id);
 	}
@@ -36,6 +38,24 @@ public class PlatformServiceImpl implements IPlatformService {
 
 	public void setDao(IPlatformDao dao) {
 		this.dao = dao;
+	}
+
+	@Override
+	public List<Platform> all() {
+		// TODO Auto-generated method stub
+		return dao.all();
+	}
+
+	@Override
+	public boolean exists(Integer id) {
+		// TODO Auto-generated method stub
+		return get(id) != null;
+	}
+
+	@Override
+	public boolean isNameExists(String name) {
+		// TODO Auto-generated method stub
+		return !dao.getByName(name).isEmpty();
 	}
 
 }

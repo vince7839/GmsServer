@@ -1,74 +1,100 @@
 package com.vince7839.action;
 
-import org.apache.struts2.dispatcher.HttpParameters;
-
-import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Project;
+import com.vince7839.service.IPlatformService;
 import com.vince7839.service.IProjectService;
 
-public class ProjectAction extends BaseAction {
-	IProjectService service;
-	Project project;
-	public String work(int type) {
-		HttpParameters params = ActionContext.getContext().getParameters();
-		System.out.println("project_get:"+params);
-		String name = params.get("name").getValue();
-		String spl = params.get("spl").getValue();
-		String idStr = params.get("id").getValue();
-		String platformIdStr = params.get("platformId").getValue();
-		int id = 0;
-		int platformId = 0;
-		if(idStr != null) {
-			id = Integer.parseInt(idStr);
+public class ProjectAction extends BaseAction  implements ModelDriven<Project>{
+	IProjectService projectService;
+	IPlatformService platformService;
+	Project project = new Project();
+	
+	public String save() {
+		if(!platformService.exists(project.getPlatformId())) {
+			buildJson(false,NO_SUCH_TARGET,null);
+			return FINISH;
 		}
-		if(platformIdStr != null) {
-			platformId =  Integer.parseInt(params.get("platformId").getValue());
+		String name = project.getName();
+		if(name == null||name.length() <2) {
+			buildJson(false,NAME_TOO_SHORT,null);
+			return FINISH;
 		}
-		Project p =new Project();
-		try {
-			if(type == SAVE) {								
-				p.setName(name);
-				p.setSpl(spl);
-				p.setPlatformId(platformId);
-				service.save(p);				
-			}else if(type == DELETE) {
-				p.setId(id);
-				service.delete(p);
-			}else if(type == UPDATE) {
-				p.setId(id);
-				p.setName(name);
-				p.setPlatformId(platformId);
-				p.setSpl(spl);
-				service.update(p);
-			}else if(type == GET) {
-				p.setId(id);
-				project = service.get(id);	
-				return RESULT_GET;
-			}else if(type == ALL) {				
-				list = service.all();
-				return RESULT_ALL;
-			}
-			result.put("result", "success");	
-		}catch(Exception e) {
-			e.printStackTrace();
-			result.put("result", "fail");			
+		if(projectService.isNameExists(name)) {
+			buildJson(false,NAME_EXIST,null);
+			return FINISH;
+		}			
+		projectService.save(project);
+		result.put("result",SUCCESS);		
+		return FINISH;
+	}
+	
+	public String delete() {
+		if(projectService.exists(project.getId())) {
+			projectService.delete(project);
+			buildJson(true,NO_ERROR,null);
+		}else {
+			buildJson(false,NO_SUCH_TARGET,null);
 		}
 		return FINISH;
 	}
 	
-	public IProjectService getService() {
-		return service;
+	public String update() {
+		if(!projectService.exists(project.getId())) {
+			buildJson(false,NO_SUCH_TARGET,null);
+			return FINISH;
+		}			
+		if(!platformService.exists(project.getPlatformId())) {
+			buildJson(true,NO_SUCH_TARGET,null);
+			return FINISH;
+		}
+		String name = project.getName();
+		if(name == null||name.length() < 3) {
+			buildJson(true,NAME_TOO_SHORT,null);
+			return FINISH;
+		}
+		projectService.update(project);
+		buildJson(true,NO_ERROR,null);
+		return FINISH;
 	}
-
-	public void setService(IProjectService service) {
-		this.service = service;
+	
+	public String get() {
+		project = projectService.get(project.getId());
+		return GET;
 	}
-
+	
+	public String all() {
+		buildJson(true,NO_ERROR,projectService.all());
+		return FINISH;
+	}
+	
 	public Project getProject() {
 		return project;
 	}
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public IPlatformService getPlatformService() {
+		return platformService;
+	}
+
+	public void setPlatformService(IPlatformService platformService) {
+		this.platformService = platformService;
+	}
+
+	public IProjectService getProjectService() {
+		return projectService;
+	}
+
+	public void setProjectService(IProjectService projectService) {
+		this.projectService = projectService;
+	}
+
+	@Override
+	public Project getModel() {
+		// TODO Auto-generated method stub
+		return project;
 	}
 }

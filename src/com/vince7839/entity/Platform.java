@@ -1,12 +1,12 @@
 package com.vince7839.entity;
 
 public class Platform {
-	int id;
+	Integer id;
 	String name;
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getName() {
