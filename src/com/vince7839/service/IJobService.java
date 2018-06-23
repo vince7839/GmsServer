@@ -10,4 +10,5 @@ public interface IJobService {
 	void update(Job j);
 	Job get(Integer id);
 	List<Job> find(Job j);
+	List<Job> findByTask(Integer taskId);
 }

@@ -16,5 +16,6 @@
         <mapping resource="com/vince7839/entity/Task.hbm.xml"/>
         <mapping resource="com/vince7839/entity/Platform.hbm.xml"/>
         <mapping resource="com/vince7839/entity/Test.hbm.xml"/>
+        <mapping resource="com/vince7839/entity/Job.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

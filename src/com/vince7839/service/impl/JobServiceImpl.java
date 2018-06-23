@@ -6,7 +6,7 @@ import com.vince7839.dao.IJobDao;
 import com.vince7839.entity.Job;
 import com.vince7839.service.IJobService;
 
-public class IJobServiceImpl implements IJobService {
+public class JobServiceImpl implements IJobService {
 	IJobDao dao;
 	@Override
 	public void save(Job j) {
@@ -36,6 +36,22 @@ public class IJobServiceImpl implements IJobService {
 	public List<Job> find(Job j) {
 		// TODO Auto-generated method stub
 		return dao.find(j);
+	}
+
+	@Override
+	public List<Job> findByTask(Integer taskId) {
+		// TODO Auto-generated method stub
+		Job job = new Job();
+		job.setTaskId(taskId);
+		return dao.find(job);
+	}
+
+	public IJobDao getDao() {
+		return dao;
+	}
+
+	public void setDao(IJobDao dao) {
+		this.dao = dao;
 	}
 
 }

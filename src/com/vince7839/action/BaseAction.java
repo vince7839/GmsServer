@@ -45,6 +45,16 @@ public class BaseAction extends ActionSupport {
 		}
 	}
 	
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
+		if(hasFieldErrors()) {
+			Map<String,List<String>> map = this.getFieldErrors();
+			buildJson(false,FIELD_ERROR,map);
+		}
+		super.validate();
+	}
+	
 	public Map<String, Object> getResult() {
 		return result;
 	}

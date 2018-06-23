@@ -12,7 +12,7 @@
 		">
 <bean id="dataSource"  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-	<property name="url" value="jdbc:mysql://localhost:3306/vince7839" />
+	<property name="url" value="jdbc:mysql://localhost:3306/vince7839?useSSL=false" />
 	<property name="username" value="root" />
 	<property name="password" value="123456" />
 </bean>
@@ -40,6 +40,11 @@
 	<property name="taskService" ref="taskService"></property>
 	<property name="projectService" ref="projectService"></property>
 	<property name="testService" ref="testService"></property>
+	<property name="jobService" ref="jobService"></property>
+</bean>
+
+<bean id="jobAction" class="com.vince7839.action.JobAction">
+	<property name="jobService" ref="jobService"></property>
 </bean>
 
 <bean id="testAction" class="com.vince7839.action.TestAction">
@@ -62,6 +67,10 @@
 	<property name="dao" ref="testDao"></property>
 </bean>
 
+<bean id="jobService" class="com.vince7839.service.impl.JobServiceImpl">
+	<property name="dao" ref="jobDao"></property>
+</bean>
+
 	<!-- 配置dao-->
 <bean id="projectDao" class="com.vince7839.dao.impl.ProjectDaoImpl">
 <property name="sessionFactory" ref="sessionFactory"></property>
@@ -76,6 +85,10 @@
 </bean>
 
 <bean id="testDao" class="com.vince7839.dao.impl.TestDaoImpl">
+<property name="sessionFactory" ref="sessionFactory"></property>
+</bean>
+
+<bean id="jobDao" class="com.vince7839.dao.impl.JobDaoImpl">
 <property name="sessionFactory" ref="sessionFactory"></property>
 </bean>
 

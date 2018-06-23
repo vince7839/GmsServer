@@ -66,4 +66,10 @@ public class Job {
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
+	@Override
+	public String toString() {
+		return "Job [id=" + id + ", taskId=" + taskId + ", testId=" + testId + ", status=" + status + ", tester="
+				+ tester + ", toolVersion=" + toolVersion + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", summary=" + summary + "]";
+	}
 }
