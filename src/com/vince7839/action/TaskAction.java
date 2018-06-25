@@ -7,13 +7,21 @@ import java.util.List;
 import java.util.Map;
 import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Job;
+import com.vince7839.entity.Platform;
 import com.vince7839.entity.Project;
 import com.vince7839.entity.Task;
 import com.vince7839.entity.Test;
+import com.vince7839.factory.CtsFactory;
+import com.vince7839.factory.GtsFactory;
+import com.vince7839.factory.PerformFactory;
+import com.vince7839.factory.VerifierFactory;
+import com.vince7839.factory.VtsFactory;
 import com.vince7839.service.IJobService;
+import com.vince7839.service.IPlatformService;
 import com.vince7839.service.IProjectService;
 import com.vince7839.service.ITaskService;
 import com.vince7839.service.ITestService;
+import com.vince7839.service.impl.PlatformServiceImpl;
 import com.vince7839.util.JobBuilder;
 
 public class TaskAction extends BaseAction implements ModelDriven<Task>{
@@ -21,20 +29,20 @@ public class TaskAction extends BaseAction implements ModelDriven<Task>{
 	IProjectService projectService;
 	ITestService testService;
 	IJobService jobService;
+	IPlatformService platformService;
 	Task task;
 	public String save() {
 		System.out.println("save"+task);
 		if(!projectService.exists(task.getProjectId())) {
 			buildJson(false,NO_SUCH_TARGET,null);
 			return FINISH;
-		}		
+		}
 		taskService.save(task);
-		jobService.save(JobBuilder.build(task, JobBuilder.CTS_ID));
-		jobService.save(JobBuilder.build(task, JobBuilder.GTS_ID));
-		jobService.save(JobBuilder.build(task, JobBuilder.VTS_ID));
-		jobService.save(JobBuilder.build(task, JobBuilder.GSI_ID));
-		jobService.save(JobBuilder.build(task, JobBuilder.CTSV_ID));
-		jobService.save(JobBuilder.build(task, JobBuilder.PERFORMANCE_ID));		
+		jobService.save(JobBuilder.build(task, new CtsFactory()));
+		jobService.save(JobBuilder.build(task, new GtsFactory()));
+		jobService.save(JobBuilder.build(task, new VtsFactory()));
+		jobService.save(JobBuilder.build(task, new VerifierFactory()));
+		jobService.save(JobBuilder.build(task, new PerformFactory()));
 		buildJson(true,NO_ERROR,null);
 		return FINISH;
 	}
@@ -125,23 +133,42 @@ public class TaskAction extends BaseAction implements ModelDriven<Task>{
 		this.testService = testService;
 	}
 	
-	private Map<String,Object> buildTaskMap(Task t){
+	private Map<String,Object> buildTaskMap(Task task){
 		Map<String,Object> map = new HashMap<String,Object>();
-		if(t != null) {
-			Integer id =  t.getId();
+		if(task != null) {
+			Integer id =  task.getId();
 			map.put("id",id);
-			Integer pId = t.getProjectId();
-			Project p = null;
-			if(pId != null) p = projectService.get(pId);
-			map.put("project", p != null ? p.getName() : null);
-			List<Job> jobs = jobService.findByTask(t.getId());
-			map.put("items",jobs);
-			map.put("status", t.getStatus());
-			map.put("summary", t.getSummary());
-			Date date = t.getStartDate();
+			
+			Integer projectId = task.getProjectId();
+			if(projectService.exists(projectId)) {
+				Project project = projectService.get(projectId);
+				map.put("project", project.getName());
+				Integer platformId = project.getPlatformId();
+				map.put("platform", platformService.exists(platformId) ? platformService.get(platformId).getName() : null);
+			} else {
+				map.put("project", null);
+				map.put("platform", null);
+			}
+			
+			map.put("bugId", task.getBugId());
+			map.put("softwareType", task.getSoftwareType());
+			List<Job> jobs = jobService.findByTask(task.getId());
+			Map<String,Object> itemMap = new HashMap<String,Object>();
+			for(Job job:jobs) {
+				if(testService.exists(job.getTestId())) {
+					Test test = testService.get(job.getTestId());
+					String name = test.getName() == null ? "null" : test.getName();
+					itemMap.put(name, job.getStatus());
+				}				
+			}			
+			map.put("items",itemMap);
+			map.put("status", task.getStatus());
+			map.put("summary", task.getSummary());
+			Date date = task.getStartDate();
 			map.put("startDate", date != null ? date.toString():null);
-			date = t.getEndDate();
+			date = task.getEndDate();
 			map.put("endDate", date != null ? date.toString():null);
+			map.put("enum", Status.waiting);
 		}
 		return map;
 	}
@@ -168,5 +195,18 @@ public class TaskAction extends BaseAction implements ModelDriven<Task>{
 
 	public void setJobService(IJobService jobService) {
 		this.jobService = jobService;
+	}
+
+	public IPlatformService getPlatformService() {
+		return platformService;
+	}
+
+	public void setPlatformService(IPlatformService platformService) {
+		this.platformService = platformService;
+	}
+	
+	public enum Status{
+		waiting,
+		testing;
 	}
 }

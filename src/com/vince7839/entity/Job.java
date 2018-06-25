@@ -6,7 +6,7 @@ public class Job {
 	Integer id;
 	Integer taskId;
 	Integer testId;
-	Integer status;
+	Status status;
 	String tester;
 	String toolVersion;
 	Date startDate;
@@ -30,12 +30,7 @@ public class Job {
 	public void setTestId(Integer testId) {
 		this.testId = testId;
 	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+
 	public String getTester() {
 		return tester;
 	}
@@ -65,6 +60,12 @@ public class Job {
 	}
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 	@Override
 	public String toString() {

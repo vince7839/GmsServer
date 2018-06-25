@@ -54,7 +54,7 @@
             <allowed-methods>save,delete,update,get,all</allowed-methods>
             </action>
             
-         <action name="job_*" class="jobAction" method="{1}">      
+         <action name="job_*" class="jobAction" method="{1}">
             <allowed-methods>update,get,test</allowed-methods>
             </action>        
             

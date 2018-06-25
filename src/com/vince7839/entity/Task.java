@@ -5,8 +5,9 @@ import java.sql.Date;
 public class Task {
 	Integer id;
 	Integer projectId;
-	Integer status;
+	Status status;
 	Integer tag;
+	Integer bugId;
 	Integer softwareType;
 	String summary;
 	Date startDate;
@@ -48,12 +49,6 @@ public class Task {
 	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
 	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
 	public Integer getSoftwareType() {
 		return softwareType;
 	}
@@ -66,11 +61,22 @@ public class Task {
 	public void setTag(Integer tag) {
 		this.tag = tag;
 	}
+	public Integer getBugId() {
+		return bugId;
+	}
+	public void setBugId(Integer bugId) {
+		this.bugId = bugId;
+	}
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", projectId=" + projectId + ", status=" + status + ", tag=" + tag + ", softwareType="
-				+ softwareType + ", summary=" + summary + ", startDate=" + startDate + ", expectDate=" + expectDate
-				+ ", endDate=" + endDate + "]";
+		return "Task [id=" + id + ", projectId=" + projectId + ", status=" + status + ", tag=" + tag + ", bugId="
+				+ bugId + ", softwareType=" + softwareType + ", summary=" + summary + ", startDate=" + startDate
+				+ ", expectDate=" + expectDate + ", endDate=" + endDate + "]";
 	}
-	
 }

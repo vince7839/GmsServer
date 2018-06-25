@@ -13,7 +13,7 @@
         </id>  
         <property name="taskId" type="int" column="task_id" />
          <property name="testId" type="int" column="test_id" />
-        <property name="status" type="int" column="status" />
+        <property name="status" type="string" column="status" />
         <property name="tester" type="string" column="tester" />
         <property name="startDate" type="date" column="start_date" />
         <property name="endDate" type="date" column="end_date" />

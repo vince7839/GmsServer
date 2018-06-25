@@ -49,7 +49,7 @@ public class ProjectServiceImpl implements IProjectService{
 	@Override
 	public boolean exists(Integer id) {
 		// TODO Auto-generated method stub
-		return get(id) != null;
+		return id != null && get(id) != null;
 	}
 
 	@Override

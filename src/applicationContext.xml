@@ -41,6 +41,7 @@
 	<property name="projectService" ref="projectService"></property>
 	<property name="testService" ref="testService"></property>
 	<property name="jobService" ref="jobService"></property>
+	<property name="platformService" ref="platformService"></property>
 </bean>
 
 <bean id="jobAction" class="com.vince7839.action.JobAction">

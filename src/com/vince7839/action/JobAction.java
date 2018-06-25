@@ -1,12 +1,15 @@
 package com.vince7839.action;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.struts2.dispatcher.HttpParameters;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Job;
+import com.vince7839.entity.Status;
 import com.vince7839.service.IJobService;
 
 public class JobAction extends BaseAction implements ModelDriven<Job>{
@@ -16,8 +19,9 @@ public class JobAction extends BaseAction implements ModelDriven<Job>{
 		Job j = jobService.get(job.getId());
 		if(j == null) {
 			buildJson(false, NO_SUCH_TARGET, null);
+			return FINISH;
 		}
-		Integer status = job.getStatus();
+		Status status = job.getStatus();
 		if(status != null) j.setStatus(status);
 		String tester = job.getTester();
 		if(tester != null) j.setTester(tester);
@@ -33,6 +37,14 @@ public class JobAction extends BaseAction implements ModelDriven<Job>{
 		jobService.update(j);
 		return FINISH;
 	}
+	
+	public String get() {
+		Job j = jobService.get(job.getId());
+		List<Job> list = new ArrayList<Job>();
+		buildJson(true, NO_ERROR, list);
+		return FINISH;
+	}
+	
 	@Override
 	public Job getModel() {
 		// TODO Auto-generated method stub

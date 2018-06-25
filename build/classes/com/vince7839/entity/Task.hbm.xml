@@ -12,12 +12,13 @@
             <generator class="increment" />
         </id>  
         <property name="projectId" type="int" column="project_id" />
-        <property name="status" type="int" column="status" />
+        <property name="status" type="string" column="status" />
         <property name="startDate" type="date" column="start_date" />
         <property name="expectDate" type="date" column="expect_date" />
         <property name="endDate" type="date" column="end_date" />
         <property name="summary" type="string" column="summary" />
         <property name="softwareType" type="int" column="software_type" />
+        <property name="bugId" type="int" column="bug_id" />
         <property name="tag" type="int" column="tag" />
     </class>
 </hibernate-mapping>
