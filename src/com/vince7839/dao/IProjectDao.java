@@ -11,4 +11,6 @@ public interface IProjectDao {
 	Project get(Integer id);
 	List<Project> all();
 	List<Project> getByName(String name);
+	List<Project> listProjectByPlatform(Integer platformId);
+	List<Project> list(Project p);
 }

@@ -3,6 +3,7 @@ package com.vince7839.service.impl;
 import java.util.List;
 
 import com.vince7839.dao.ITaskDao;
+import com.vince7839.entity.Status;
 import com.vince7839.entity.Task;
 import com.vince7839.service.ITaskService;
 
@@ -55,6 +56,6 @@ public class TaskServiceImpl implements ITaskService {
 	@Override
 	public List<Task> listOrder() {
 		// TODO Auto-generated method stub
-		return dao.getByStatus(ITaskService.WAITING);
+		return dao.getByStatus(Status.Waiting);
 	}
 }

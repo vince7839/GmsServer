@@ -12,7 +12,7 @@
             <generator class="increment" />
         </id>  
         <property name="projectId" type="int" column="project_id" />
-        <property name="status" type="string" column="status" />
+        <property name="status" type="" column="status" />
         <property name="startDate" type="date" column="start_date" />
         <property name="expectDate" type="date" column="expect_date" />
         <property name="endDate" type="date" column="end_date" />

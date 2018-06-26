@@ -10,4 +10,5 @@ public interface IJobDao {
 	void update(Job j);
 	Job get(Integer id);
 	List<Job> find(Job j);
+	void test();
 }

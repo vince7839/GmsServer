@@ -54,4 +54,10 @@ public class JobServiceImpl implements IJobService {
 		this.dao = dao;
 	}
 
+	@Override
+	public void test() {
+		// TODO Auto-generated method stub
+		dao.test();
+	}
+
 }

@@ -2,6 +2,7 @@ package com.vince7839.dao;
 
 import java.util.List;
 
+import com.vince7839.entity.Status;
 import com.vince7839.entity.Task;
 
 public interface ITaskDao {
@@ -10,5 +11,5 @@ public interface ITaskDao {
 	void update(Task t);
 	Task get(Integer id);
 	List<Task> all();
-	List<Task> getByStatus(Integer status);
+	List<Task> getByStatus(Status status);
 }

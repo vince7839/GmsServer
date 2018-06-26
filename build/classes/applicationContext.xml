@@ -27,16 +27,16 @@
 </bean>
 
 	<!-- 配置action，action交由spring管理 -->	
-<bean id="projectAction" class="com.vince7839.action.ProjectAction">
+<bean id="projectAction" class="com.vince7839.action.ProjectAction" scope="prototype">
 	<property name="projectService" ref="projectService"></property>
 	<property name="platformService" ref="platformService"></property>	
 </bean>
 
-<bean id="platformAction" class="com.vince7839.action.PlatformAction">
+<bean id="platformAction" class="com.vince7839.action.PlatformAction" scope="prototype">
 	<property name="service" ref="platformService"></property>
 </bean>
 
-<bean id="taskAction" class="com.vince7839.action.TaskAction">
+<bean id="taskAction" class="com.vince7839.action.TaskAction" scope="prototype">
 	<property name="taskService" ref="taskService"></property>
 	<property name="projectService" ref="projectService"></property>
 	<property name="testService" ref="testService"></property>
@@ -44,11 +44,11 @@
 	<property name="platformService" ref="platformService"></property>
 </bean>
 
-<bean id="jobAction" class="com.vince7839.action.JobAction">
+<bean id="jobAction" class="com.vince7839.action.JobAction" scope="prototype">
 	<property name="jobService" ref="jobService"></property>
 </bean>
 
-<bean id="testAction" class="com.vince7839.action.TestAction">
+<bean id="testAction" class="com.vince7839.action.TestAction" scope="prototype">
 	<property name="testService" ref="testService"></property>
 </bean>
 	<!-- 配置service-->

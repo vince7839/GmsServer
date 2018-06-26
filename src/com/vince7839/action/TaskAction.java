@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Map;
 import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Job;
-import com.vince7839.entity.Platform;
 import com.vince7839.entity.Project;
+import com.vince7839.entity.SoftwareType;
+import com.vince7839.entity.Status;
 import com.vince7839.entity.Task;
 import com.vince7839.entity.Test;
 import com.vince7839.factory.CtsFactory;
@@ -21,7 +22,6 @@ import com.vince7839.service.IPlatformService;
 import com.vince7839.service.IProjectService;
 import com.vince7839.service.ITaskService;
 import com.vince7839.service.ITestService;
-import com.vince7839.service.impl.PlatformServiceImpl;
 import com.vince7839.util.JobBuilder;
 
 public class TaskAction extends BaseAction implements ModelDriven<Task>{
@@ -58,7 +58,7 @@ public class TaskAction extends BaseAction implements ModelDriven<Task>{
 	}
 	
 	public String update() {
-		System.out.println(task);
+		System.out.println("[TaskAction]update:" + task);
 		if(!taskService.exists(task.getId())) {
 			buildJson(false,NO_SUCH_TARGET,null);
 			return FINISH;
@@ -67,9 +67,9 @@ public class TaskAction extends BaseAction implements ModelDriven<Task>{
 		Task t = taskService.get(task.getId());
 		Integer pId = task.getProjectId();
 		if(pId != null) t.setProjectId(pId);
-		Integer status = task.getStatus();
+		Status status = task.getStatus();
 		if(status != null) t.setStatus(status);
-		Integer swType = task.getSoftwareType();
+		SoftwareType swType = task.getSoftwareType();
 		if(swType != null) t.setSoftwareType(swType);
 		String summary = task.getSummary();
 		if(summary != null) t.setSummary(summary);
@@ -96,8 +96,7 @@ public class TaskAction extends BaseAction implements ModelDriven<Task>{
 		return FINISH;
 	}
 	
-	public String order() {
-		
+	public String order() {		
 		return ALL;
 	}
 
@@ -145,9 +144,11 @@ public class TaskAction extends BaseAction implements ModelDriven<Task>{
 				map.put("project", project.getName());
 				Integer platformId = project.getPlatformId();
 				map.put("platform", platformService.exists(platformId) ? platformService.get(platformId).getName() : null);
+				map.put("spl", project.getSpl());
 			} else {
 				map.put("project", null);
 				map.put("platform", null);
+				map.put("spl", null);
 			}
 			
 			map.put("bugId", task.getBugId());
@@ -168,7 +169,6 @@ public class TaskAction extends BaseAction implements ModelDriven<Task>{
 			map.put("startDate", date != null ? date.toString():null);
 			date = task.getEndDate();
 			map.put("endDate", date != null ? date.toString():null);
-			map.put("enum", Status.waiting);
 		}
 		return map;
 	}
@@ -204,9 +204,5 @@ public class TaskAction extends BaseAction implements ModelDriven<Task>{
 	public void setPlatformService(IPlatformService platformService) {
 		this.platformService = platformService;
 	}
-	
-	public enum Status{
-		waiting,
-		testing;
-	}
+
 }

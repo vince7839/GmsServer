@@ -11,4 +11,5 @@ public interface IJobService {
 	Job get(Integer id);
 	List<Job> find(Job j);
 	List<Job> findByTask(Integer taskId);
+	void test();
 }

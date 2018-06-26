@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import com.vince7839.dao.ITaskDao;
+import com.vince7839.entity.Status;
 import com.vince7839.entity.Task;
 
 public class TaskDaoImpl extends HibernateDaoSupport implements ITaskDao {
@@ -39,7 +40,7 @@ public class TaskDaoImpl extends HibernateDaoSupport implements ITaskDao {
 	}
 
 	@Override
-	public List<Task> getByStatus(Integer status) {
+	public List<Task> getByStatus(Status status) {
 		// TODO Auto-generated method stub
 		Task t = new Task();
 		t.setStatus(status);

@@ -12,4 +12,5 @@ public interface IProjectService {
 	List<Project> all();
 	boolean exists(Integer id);
 	boolean isNameExists(String name);
+	List<Project> list(Project p);
 }

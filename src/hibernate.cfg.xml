@@ -12,10 +12,11 @@
 	<session-factory name="foo">
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="show_sql">false</property>
-        <mapping resource="com/vince7839/entity/Project.hbm.xml"/>
-        <mapping resource="com/vince7839/entity/Task.hbm.xml"/>
+        <mapping resource="com/vince7839/entity/Project.hbm.xml"/>       
         <mapping resource="com/vince7839/entity/Platform.hbm.xml"/>
         <mapping resource="com/vince7839/entity/Test.hbm.xml"/>
-        <mapping resource="com/vince7839/entity/Job.hbm.xml"/>
+        <!--这两个单独使用注解是因为要使用converter来转换枚举类型-->
+        <mapping class="com.vince7839.entity.Task"/>
+        <mapping class="com.vince7839.entity.Job"/>
 	</session-factory>
 </hibernate-configuration>

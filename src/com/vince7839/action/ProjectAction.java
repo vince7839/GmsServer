@@ -1,5 +1,7 @@
 package com.vince7839.action;
 
+import java.util.List;
+
 import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Project;
 import com.vince7839.service.IPlatformService;
@@ -8,7 +10,7 @@ import com.vince7839.service.IProjectService;
 public class ProjectAction extends BaseAction  implements ModelDriven<Project>{
 	IProjectService projectService;
 	IPlatformService platformService;
-	Project project = new Project();
+	Project project;
 	
 	public String save() {
 		if(!platformService.exists(project.getPlatformId())) {
@@ -58,9 +60,10 @@ public class ProjectAction extends BaseAction  implements ModelDriven<Project>{
 		return FINISH;
 	}
 	
-	public String get() {
-		project = projectService.get(project.getId());
-		return GET;
+	public String get() {		
+		Project p = projectService.get(project.getId());
+		buildJson(true, NO_ERROR, p);
+		return FINISH;
 	}
 	
 	public String all() {
@@ -68,6 +71,12 @@ public class ProjectAction extends BaseAction  implements ModelDriven<Project>{
 		return FINISH;
 	}
 	
+	public String list() {
+		List<Project> list = projectService.list(project);
+		buildJson(true, NO_ERROR, list);
+		return FINISH;
+	}
+		
 	public Project getProject() {
 		return project;
 	}
@@ -95,6 +104,7 @@ public class ProjectAction extends BaseAction  implements ModelDriven<Project>{
 	@Override
 	public Project getModel() {
 		// TODO Auto-generated method stub
+		project = new Project();
 		return project;
 	}
 }

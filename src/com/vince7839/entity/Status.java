@@ -7,5 +7,7 @@ public enum Status {
 	Failed,
 	Stopped,
 	Abandoned,
-	NA;
+	NA,
+	Unknown
+	;
 }

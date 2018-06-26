@@ -1,13 +1,13 @@
 package com.vince7839.action;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
 
-public class BaseAction extends ActionSupport {	
+public class BaseAction extends ActionSupport implements Preparable{	
 	final static String SAVE = "save";
 	final static String DELETE = "delete";
 	final static String UPDATE = "update";
@@ -51,8 +51,7 @@ public class BaseAction extends ActionSupport {
 		if(hasFieldErrors()) {
 			Map<String,List<String>> map = this.getFieldErrors();
 			buildJson(false,FIELD_ERROR,map);
-		}
-		super.validate();
+		}		
 	}
 	
 	public Map<String, Object> getResult() {
@@ -61,5 +60,11 @@ public class BaseAction extends ActionSupport {
 
 	public void setResult(Map<String, Object> result) {
 		this.result = result;
+	}
+
+	@Override
+	public void prepare() throws Exception {
+		// TODO Auto-generated method stub
+		
 	}	
 }

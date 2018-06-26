@@ -46,4 +46,17 @@ public class ProjectDaoImpl extends HibernateDaoSupport implements IProjectDao {
 		return getHibernateTemplate().findByExample(p);
 	}
 
+	@Override
+	public List<Project> listProjectByPlatform(Integer platformId) {
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
+
+	@Override
+	public List<Project> list(Project p) {
+		// TODO Auto-generated method stub
+		return getHibernateTemplate().findByExample(p);
+	}
+
 }

@@ -58,4 +58,10 @@ public class ProjectServiceImpl implements IProjectService{
 		return !dao.getByName(name).isEmpty();
 	}
 
+	@Override
+	public List<Project> list(Project p) {
+		// TODO Auto-generated method stub
+		return dao.list(p);
+	}
+
 }

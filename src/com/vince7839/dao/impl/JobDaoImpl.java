@@ -3,7 +3,6 @@ package com.vince7839.dao.impl;
 import java.util.List;
 
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
-
 import com.vince7839.dao.IJobDao;
 import com.vince7839.entity.Job;
 
@@ -30,7 +29,7 @@ public class JobDaoImpl extends HibernateDaoSupport implements IJobDao {
 	@Override
 	public Job get(Integer id) {
 		// TODO Auto-generated method stub
-		return getHibernateTemplate().get(Job.class,id);
+		return getHibernateTemplate().get(Job.class, id);
 	}
 
 	@Override
@@ -39,4 +38,7 @@ public class JobDaoImpl extends HibernateDaoSupport implements IJobDao {
 		return getHibernateTemplate().findByExample(j);
 	}
 
+	public void test() {
+
+	}
 }
