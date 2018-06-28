@@ -22,8 +22,8 @@ public class BaseAction extends ActionSupport implements Preparable{
 	final static int NAME_TOO_SHORT = 3;
 	final static int NAME_EXIST = 4;	
 	final static int FIELD_ERROR = 5;
-	
-	final Map errMap = new HashMap<Integer,String>();	
+	final static int MULTI_RESULT_FOUND = 6;
+	final Map<Integer,String> errMap = new HashMap<Integer,String>();	
 	Map<String,Object> result = new HashMap<String,Object>();
 
 	public BaseAction() {
@@ -32,7 +32,8 @@ public class BaseAction extends ActionSupport implements Preparable{
 		errMap.put(UNKNOWN_ERROR,"unknown error");
 		errMap.put(NAME_EXIST,"name exists");
 		errMap.put(FIELD_ERROR,"field error");
-		errMap.put(NO_ERROR,"no error happend");
+		errMap.put(NO_ERROR,null);
+		errMap.put(MULTI_RESULT_FOUND, "multi result found");
 	}
 	
 	public void buildJson(boolean success,int code,Object data) {
@@ -51,7 +52,7 @@ public class BaseAction extends ActionSupport implements Preparable{
 		if(hasFieldErrors()) {
 			Map<String,List<String>> map = this.getFieldErrors();
 			buildJson(false,FIELD_ERROR,map);
-		}		
+		}
 	}
 	
 	public Map<String, Object> getResult() {

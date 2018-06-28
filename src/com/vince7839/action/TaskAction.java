@@ -37,7 +37,8 @@ public class TaskAction extends BaseAction implements ModelDriven<Task>{
 			buildJson(false,NO_SUCH_TARGET,null);
 			return FINISH;
 		}
-		taskService.save(task);
+		taskService.save(task);		
+		//使用工厂方法模式生产某个test 方便后期扩展
 		jobService.save(JobBuilder.build(task, new CtsFactory()));
 		jobService.save(JobBuilder.build(task, new GtsFactory()));
 		jobService.save(JobBuilder.build(task, new VtsFactory()));

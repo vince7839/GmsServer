@@ -7,6 +7,7 @@ import java.util.List;
 import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Job;
 import com.vince7839.entity.Status;
+import com.vince7839.exception.MultiResultException;
 import com.vince7839.service.IJobService;
 
 public class JobAction extends BaseAction implements ModelDriven<Job> {
@@ -14,7 +15,18 @@ public class JobAction extends BaseAction implements ModelDriven<Job> {
 	Job job;
 
 	public String update() {
-		Job j = jobService.get(job.getId());
+		System.out.println("job_update" + job);
+		Job j = null;
+		if (job.getId() != null) {
+			j = jobService.get(job.getId());
+		} else {
+			try {
+				j = jobService.find(job.getTaskId(), job.getTestId());
+			} catch (MultiResultException e) {
+				buildJson(false, MULTI_RESULT_FOUND, null);
+				return FINISH;
+			}
+		}
 		if (j == null) {
 			buildJson(false, NO_SUCH_TARGET, null);
 			return FINISH;
@@ -45,6 +57,7 @@ public class JobAction extends BaseAction implements ModelDriven<Job> {
 	public String get() {
 		Job j = jobService.get(job.getId());
 		List<Job> list = new ArrayList<Job>();
+		list.add(j);
 		buildJson(true, NO_ERROR, list);
 		return FINISH;
 	}

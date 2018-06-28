@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.vince7839.dao.IJobDao;
 import com.vince7839.entity.Job;
+import com.vince7839.exception.MultiResultException;
 import com.vince7839.service.IJobService;
 
 public class JobServiceImpl implements IJobService {
 	IJobDao dao;
+
 	@Override
 	public void save(Job j) {
 		// TODO Auto-generated method stub
@@ -60,4 +62,20 @@ public class JobServiceImpl implements IJobService {
 		dao.test();
 	}
 
+	@Override
+	public Job find(Integer taskId, Integer testId) throws MultiResultException{
+		// TODO Auto-generated method stub	
+		Job job = new Job();
+		job.setTaskId(taskId);
+		job.setTestId(testId);
+		List<Job> result = dao.find(job);
+		if (result != null ) {
+			if(result.size() == 1) {
+				return result.get(0);
+			} else if(result.size() > 1){
+				throw new MultiResultException();
+			}
+		}
+		return null;
+	}
 }
