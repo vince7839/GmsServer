@@ -2,9 +2,9 @@ package com.vince7839.entity.test;
 
 import com.vince7839.entity.Test;
 
-public class GtsTest extends Test {
-	Integer id = 2;
-	String name = "GTS";
+public class RuleTest extends Test {
+	Integer id = 7;
+	String name = "Rule";
 	public Integer getId() {
 		return id;
 	}

@@ -15,4 +15,8 @@ public class Platform {
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Override
+	public String toString() {
+		return "Platform [id=" + id + ", name=" + name + "]";
+	}
 }

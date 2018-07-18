@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
@@ -14,6 +19,7 @@ public class BaseAction extends ActionSupport implements Preparable{
 	final static String GET = "get";
 	final static String ALL = "all";
 	final static String FINISH = "finish";
+	final static String STREAM = "stream";
 	final static String FAIL = "fail"; 
 
 	final static int NO_ERROR = 0;
@@ -23,6 +29,8 @@ public class BaseAction extends ActionSupport implements Preparable{
 	final static int NAME_EXIST = 4;	
 	final static int FIELD_ERROR = 5;
 	final static int MULTI_RESULT_FOUND = 6;
+	final static int ID_IS_NULL = 7;
+	final static int INTERNAL_ERROR = 8;
 	final Map<Integer,String> errMap = new HashMap<Integer,String>();	
 	Map<String,Object> result = new HashMap<String,Object>();
 
@@ -34,6 +42,8 @@ public class BaseAction extends ActionSupport implements Preparable{
 		errMap.put(FIELD_ERROR,"field error");
 		errMap.put(NO_ERROR,null);
 		errMap.put(MULTI_RESULT_FOUND, "multi result found");
+		errMap.put(ID_IS_NULL, "id cannot null");
+		errMap.put(INTERNAL_ERROR, "internal error");
 	}
 	
 	public void buildJson(boolean success,int code,Object data) {
@@ -66,6 +76,7 @@ public class BaseAction extends ActionSupport implements Preparable{
 	@Override
 	public void prepare() throws Exception {
 		// TODO Auto-generated method stub
-		
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setHeader("Access-Control-Allow-Origin", "*");
 	}	
 }

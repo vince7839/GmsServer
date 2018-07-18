@@ -15,7 +15,7 @@ public class StatusConverter implements AttributeConverter<Status, String> {
 	@Override
 	public Status convertToEntityAttribute(String column) {
 		// TODO Auto-generated method stub
-		System.out.println("[StatusConverter]convert enum from:" + column);
+	//	System.out.println("[StatusConverter]convert enum from:" + column);
 		Status status = null;
 		if("waiting".equalsIgnoreCase(column)) {
 			status = Status.Waiting;

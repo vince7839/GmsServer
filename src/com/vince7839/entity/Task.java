@@ -1,21 +1,34 @@
 package com.vince7839.entity;
 
-import java.sql.Date;
-import javax.persistence.*;
+
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="task")
 public class Task {
 	Integer id;
-	Integer projectId;
 	Status status;
 	Integer tag;
 	Integer bugId;
 	SoftwareType softwareType;
 	String summary;
-	Date startDate;
-	Date expectDate;
-	Date endDate;
+	Date startDate; //实际开始日期
+	Date endDate; //实际完成日期
+	Date orderDate;//建立预约的时间
+	Date expectStartDate; //期望开始时间
+	Date expectEndDate; //期望完成时间
+	Date scheduleDate; //预计安排的时间
+	Project project;
 	@Column(name="summary")
 	public String getSummary() {
 		return summary;
@@ -24,6 +37,8 @@ public class Task {
 		this.summary = summary;
 	}
 	@Column(name="start_date")
+	@Type(type="timestamp")
+	//@Convert(converter=com.vince7839.util.DateConverter.class)
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -31,19 +46,15 @@ public class Task {
 		this.startDate = startDate;
 	}
 	@Column(name="end_date")
+	@Type(type="timestamp")
+//	@Convert(converter=com.vince7839.util.DateConverter.class)
 	public Date getEndDate() {
 		return endDate;
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	@Column(name="expect_date")
-	public Date getExpectDate() {
-		return expectDate;
-	}
-	public void setExpectDate(Date expectDate) {
-		this.expectDate = expectDate;
-	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
@@ -51,13 +62,6 @@ public class Task {
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	@Column(name="project_id")
-	public Integer getProjectId() {
-		return projectId;
-	}
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
 	}
 	@Column(name="software_type")
 	@Convert(converter=com.vince7839.util.SwTypeConverter.class)
@@ -89,10 +93,59 @@ public class Task {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	@ManyToOne
+	@JoinColumn(name="project_id")
+	public Project getProject() {
+		return project;
+	}
+	public void setProject(Project project) {
+		this.project = project;
+	}
+	
+	@Column(name="order_date")
+	@Type(type="timestamp")
+	//@Convert(converter=com.vince7839.util.DateConverter.class)
+	public Date getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+	
+	@Column(name="expect_start_date")
+	@Type(type="timestamp")
+//	@Convert(converter=com.vince7839.util.DateConverter.class)
+	public Date getExpectStartDate() {
+		return expectStartDate;
+	}
+	public void setExpectStartDate(Date expectStartDate) {
+		this.expectStartDate = expectStartDate;
+	}
+
+	@Column(name="expect_end_date")
+	@Type(type="timestamp")
+//	@Convert(converter=com.vince7839.util.DateConverter.class)
+	public Date getExpectEndDate() {
+		return expectEndDate;
+	}
+	public void setExpectEndDate(Date expectEndDate) {
+		this.expectEndDate = expectEndDate;
+	}
+	
+	@Column(name="schedule_date")
+	@Type(type="timestamp")
+//	@Convert(converter=com.vince7839.util.DateConverter.class)
+	public Date getScheduleDate() {
+		return scheduleDate;
+	}
+	public void setScheduleDate(Date scheduleDate) {
+		this.scheduleDate = scheduleDate;
+	}
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", projectId=" + projectId + ", status=" + status + ", tag=" + tag + ", bugId="
-				+ bugId + ", softwareType=" + softwareType + ", summary=" + summary + ", startDate=" + startDate
-				+ ", expectDate=" + expectDate + ", endDate=" + endDate + "]";
+		return "Task [id=" + id + ", status=" + status + ", tag=" + tag + ", bugId=" + bugId + ", softwareType="
+				+ softwareType + ", summary=" + summary + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", orderDate=" + orderDate + ", expectStartDate=" + expectStartDate + ", expectEndDate="
+				+ expectEndDate + ", scheduleDate=" + scheduleDate + ", project=" + project + "]";
 	}
 }

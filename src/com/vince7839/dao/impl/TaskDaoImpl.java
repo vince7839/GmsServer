@@ -2,6 +2,9 @@ package com.vince7839.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import com.vince7839.dao.ITaskDao;
 import com.vince7839.entity.Status;
@@ -45,6 +48,12 @@ public class TaskDaoImpl extends HibernateDaoSupport implements ITaskDao {
 		Task t = new Task();
 		t.setStatus(status);
 		return getHibernateTemplate().findByExample(t);
+	}
+
+	@Override
+	public List<Task> loadByPage(int page, int load) {
+		// TODO Auto-generated method stub
+		return getHibernateTemplate().execute(PageCallback.build("FROM Task", page, load));
 	}
 
 }

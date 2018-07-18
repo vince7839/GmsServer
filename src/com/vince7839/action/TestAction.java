@@ -1,8 +1,5 @@
 package com.vince7839.action;
 
-import org.apache.struts2.dispatcher.HttpParameters;
-
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Test;
 import com.vince7839.service.ITestService;

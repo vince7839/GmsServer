@@ -7,8 +7,10 @@ public class CtsFactory implements ITestFactory {
 
 	@Override
 	public Test getTest() {
-		// TODO Auto-generated method stub
-		return new CtsTest();
+		// TODO Auto-generated method stub		
+		Test cts = new CtsTest();
+		System.out.println("cts factory:" + cts.getName());
+		return cts;
 	}
 
 }

@@ -10,7 +10,7 @@
         	<param name="root">result</param> 
        	</result>
         <result name="finish" type="json">
-			<param name="root">result</param> 
+			<param name="root">result</param>			
         </result>       	
     </global-results>
     
@@ -41,7 +41,7 @@
             <result name="all" type="json">
 				<param name="root">list</param> 
             </result>
-            <allowed-methods>save,delete,update,get,all,order</allowed-methods>
+            <allowed-methods>save,delete,update,get,all,order,size,list</allowed-methods>
         </action>
         
          <action name="test_*" class="testAction" method="{1}">
@@ -55,8 +55,19 @@
             </action>
             
          <action name="job_*" class="jobAction" method="{1}">
-            <allowed-methods>update,get,test</allowed-methods>
-            </action>        
+            <allowed-methods>update,get,test,list,size,load</allowed-methods>
+            </action>
+            
+         <action name="download_*" class="downloadAction" method="{1}">
+         		<result name="stream" type="stream">
+         		<param name="contentDisposition">filename=${fileName}</param>
+         		<param name="filename">filename=${fileName}</param>
+				<param name="contentType">multipart/form-data</param>  
+				<param name="inputName">inputStream</param>  
+				<param name="bufferSize">2048</param>  
+			</result>
+            <allowed-methods>query,file</allowed-methods>
+            </action>              
             
     </package>    
 </struts>

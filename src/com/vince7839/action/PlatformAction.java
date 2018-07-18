@@ -4,81 +4,93 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Platform;
 import com.vince7839.service.IPlatformService;
 
-public class PlatformAction extends BaseAction implements ModelDriven<Platform>{
-	IPlatformService service;
-	Platform platform = new Platform();
-	
+public class PlatformAction extends BaseAction implements ModelDriven<Platform> {
+	IPlatformService platformService;
+	Platform model;
+
 	public String save() {
-		System.out.println(platform.getName());
-		String name = platform.getName();
-		if(name == null || name.length() < 3) {
-			buildJson(false,NAME_TOO_SHORT,null);
+		System.out.println(model.getName());
+		String name = model.getName();
+		if (name == null || name.length() < 3) {
+			buildJson(false, NAME_TOO_SHORT, null);
 			return FINISH;
 		}
-		if(service.isNameExists(platform.getName())) {
-			buildJson(false,NAME_EXIST,null);
+		if (platformService.isNameExists(model.getName())) {
+			buildJson(false, NAME_EXIST, null);
 			return FINISH;
 		}
-		service.save(platform);
-		buildJson(true,NO_ERROR,null);
+		platformService.save(model);
+		buildJson(true, NO_ERROR, null);
 		return FINISH;
 	}
-	
+
 	public String delete() {
-		Platform p = service.get(platform.getId());
-		if(p != null) {
-			service.delete(p);
-			buildJson(true,NO_ERROR,null);
-		}else {
-			buildJson(false,NO_SUCH_TARGET,null);
-		}	
-		return FINISH;
-	}
-	
-	public String update() {		
-		if(service.exists(platform.getId())) {
-			String name = platform.getName();
-			if(name != null && name.length() > 2) {
-				service.update(platform);
-			} else {
-				buildJson(false,NAME_TOO_SHORT,null);
-			}			
-		} else {
-			buildJson(false,NO_SUCH_TARGET,null);
+		if (model.getId() == null) {
+			buildJson(false, ID_IS_NULL, null);
+			return FINISH;
 		}
-		buildJson(true,NO_ERROR,null);
+		Platform p = platformService.get(model.getId());
+		if (p != null) {
+			platformService.delete(p);
+			buildJson(true, NO_ERROR, null);
+		} else {
+			buildJson(false, NO_SUCH_TARGET, null);
+		}
 		return FINISH;
 	}
-	
+
+	public String update() {
+		if (model.getId() == null) {
+			buildJson(false, ID_IS_NULL, null);
+			return FINISH;
+		}
+		Platform p = platformService.get(model.getId());
+		if (!platformService.exists(model.getId())) {
+			buildJson(false, NO_SUCH_TARGET, null);
+			return FINISH;
+		}
+		String name = model.getName();
+		if (name != null || name.length() < 3) {
+			buildJson(false, NAME_TOO_SHORT, null);
+			return FINISH;
+		}
+		if (!name.equals(p.getName()) && platformService.isNameExists(name)) {
+			buildJson(false, NAME_EXIST, null);
+			return FINISH;
+		}
+		platformService.update(model);
+		buildJson(true, NO_ERROR, null);
+		return FINISH;
+
+	}
+
 	public String get() {
-		platform = service.get(platform.getId());	
-		return GET;		
+		if (model.getId() == null) {
+			buildJson(false, ID_IS_NULL, null);
+			return FINISH;
+		}
+		model = platformService.get(model.getId());
+		return GET;
 	}
-	
+
 	public String all() {
-		buildJson(true,NO_ERROR,service.all());
-		return FINISH;	
-	}
-	
-	public IPlatformService getService() {
-		return service;
+		buildJson(true, NO_ERROR, platformService.all());
+		return FINISH;
 	}
 
-	public void setService(IPlatformService service) {
-		this.service = service;
+	public IPlatformService getPlatformService() {
+		return platformService;
 	}
 
-	public Platform getPlatform() {
-		return platform;
-	}
-
-	public void setPlatform(Platform platform) {
-		this.platform = platform;
+	public void setPlatformService(IPlatformService service) {
+		this.platformService = service;
 	}
 
 	@Override
 	public Platform getModel() {
 		// TODO Auto-generated method stub
-		return platform;
+		model = new Platform();
+		return model;
 	}
+
 }

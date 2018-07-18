@@ -33,7 +33,7 @@
 </bean>
 
 <bean id="platformAction" class="com.vince7839.action.PlatformAction" scope="prototype">
-	<property name="service" ref="platformService"></property>
+	<property name="platformService" ref="platformService"></property>
 </bean>
 
 <bean id="taskAction" class="com.vince7839.action.TaskAction" scope="prototype">
@@ -51,6 +51,10 @@
 <bean id="testAction" class="com.vince7839.action.TestAction" scope="prototype">
 	<property name="testService" ref="testService"></property>
 </bean>
+
+<bean id="downloadAction" class="com.vince7839.action.DownloadAction" scope="prototype">
+</bean>
+
 	<!-- 配置service-->
 <bean id="projectService" class="com.vince7839.service.impl.ProjectServiceImpl">
 	<property name="dao" ref="projectDao"></property>
@@ -98,15 +102,16 @@
 	class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 	<property name="sessionFactory" ref="sessionFactory" />
 </bean>
+
 <tx:advice id="txAdvice" transaction-manager="transactionManager">
-<tx:attributes>
-<tx:method name="*" propagation="REQUIRED" read-only="false"/>
-</tx:attributes>
+	<tx:attributes>
+		<tx:method name="*" propagation="REQUIRED" read-only="false"/>
+	</tx:attributes>
 </tx:advice>
 
 <aop:config>
-<aop:pointcut id="allMethods" expression="execution(* com.vince7839.service.*.*(..))" />
-<aop:advisor advice-ref="txAdvice" pointcut-ref="allMethods" />
+	<aop:pointcut id="allMethods" expression="execution(* com.vince7839.service.*.*(..))" />
+	<aop:advisor advice-ref="txAdvice" pointcut-ref="allMethods" />
 </aop:config>
 
 </beans>

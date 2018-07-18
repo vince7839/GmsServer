@@ -1,21 +1,20 @@
 package com.vince7839.entity;
 
-import java.sql.Date;
-
+import java.util.Date;
 import javax.persistence.*;
 
 @Entity
 @Table(name="job")
 public class Job {
 	Integer id;
-	Integer taskId;
-	Integer testId;
 	Status status;
 	String tester;
 	String toolVersion;
 	Date startDate;
 	Date endDate;
 	String summary;
+	Task task;
+	Test test;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
@@ -23,20 +22,6 @@ public class Job {
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	@Column(name="task_id")
-	public Integer getTaskId() {
-		return taskId;
-	}
-	public void setTaskId(Integer taskId) {
-		this.taskId = taskId;
-	}
-	@Column(name="test_id")
-	public Integer getTestId() {
-		return testId;
-	}
-	public void setTestId(Integer testId) {
-		this.testId = testId;
 	}
 	@Column(name="tester")
 	public String getTester() {
@@ -81,10 +66,26 @@ public class Job {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	@ManyToOne
+	@JoinColumn(name="task_id")
+	public Task getTask() {
+		return task;
+	}
+	public void setTask(Task task) {
+		this.task = task;
+	}
+	@ManyToOne
+	@JoinColumn(name="test_id")
+	public Test getTest() {
+		return test;
+	}
+	public void setTest(Test test) {
+		this.test = test;
+	}
 	@Override
 	public String toString() {
-		return "Job [id=" + id + ", taskId=" + taskId + ", testId=" + testId + ", status=" + status + ", tester="
-				+ tester + ", toolVersion=" + toolVersion + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", summary=" + summary + "]";
+		return "Job [id=" + id + ", status=" + status + ", tester=" + tester + ", toolVersion=" + toolVersion
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", summary=" + summary + ", task=" + task
+				+ ", test=" + test + "]";
 	}
 }

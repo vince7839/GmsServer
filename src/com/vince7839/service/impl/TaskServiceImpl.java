@@ -58,4 +58,23 @@ public class TaskServiceImpl implements ITaskService {
 		// TODO Auto-generated method stub
 		return dao.getByStatus(Status.Waiting);
 	}
+
+	@Override
+	public List<Task> loadByPage(int page, int load) {
+		// TODO Auto-generated method stub
+		if(page > pageCount(load))
+			return null;
+		else 
+			return dao.loadByPage(page, load);
+	}
+
+	@Override
+	public int pageCount(int load) {
+		// TODO Auto-generated method stub
+		int size = all().size();
+		int remain = size % load;
+		int completePage = size / load;
+		int pageCount = completePage + (remain == 0 ? 0 : 1);
+		return pageCount;
+	}
 }

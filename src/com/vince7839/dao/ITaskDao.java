@@ -12,4 +12,5 @@ public interface ITaskDao {
 	Task get(Integer id);
 	List<Task> all();
 	List<Task> getByStatus(Status status);
+	List<Task> loadByPage(int page,int load);
 }

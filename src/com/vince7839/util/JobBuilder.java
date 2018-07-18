@@ -1,23 +1,39 @@
 package com.vince7839.util;
 
+import org.springframework.web.context.ContextLoader;
+
 import com.vince7839.entity.Job;
+import com.vince7839.entity.Status;
 import com.vince7839.entity.Task;
 import com.vince7839.entity.Test;
+import com.vince7839.exception.BuildTestException;
 import com.vince7839.factory.ITestFactory;
+import com.vince7839.service.IPlatformService;
+import com.vince7839.service.ITestService;
 
 public class JobBuilder {
-	public static Integer CTS_ID = 1;
-	public static Integer GTS_ID = 2;
-	public static Integer VTS_ID = 3;
-	public static Integer GSI_ID = 4;
-	public static Integer CTSV_ID = 5;
-	public static Integer PERFORMANCE_ID = 6;
-	
-	public static Job build(Task task,ITestFactory testFactory) {
+
+	public static Job build(Task task, ITestFactory testFactory) throws BuildTestException {
 		Job job = new Job();
+		
+		//断言 根据test的id从数据库查询出来的test，两者的name应该相同，否则抛出异常
 		Test test = testFactory.getTest();
-		job.setTaskId(task.getId());
-	 	job.setTestId(test.getId());
+		System.out.println(test);
+		if (test.getId() == null || test.getName() == null) {
+			throw new BuildTestException();
+		}
+		ITestService testService = (ITestService) ContextLoader.getCurrentWebApplicationContext()
+				.getBean("testService");
+		Test entity = testService.get(test.getId());
+		if (entity.getName() == null) {
+			throw new BuildTestException();
+		}
+		if(!test.getName().equalsIgnoreCase(entity.getName())) {
+			throw new BuildTestException();
+		}
+		job.setStatus(Status.NA);
+		job.setTask(task);
+		job.setTest(test);
 		return job;
 	}
 }
