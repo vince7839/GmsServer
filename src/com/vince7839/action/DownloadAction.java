@@ -1,7 +1,5 @@
 package com.vince7839.action;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -14,7 +12,7 @@ public class DownloadAction extends BaseAction {
 	String type;
 	String fileName;
 	InputStream inputStream;
-	public String query() {
+	public String list() {
 		String path = "/resource/" + type;
 		String dirPath = ServletActionContext.getServletContext().getRealPath(path);
 		System.out.println(dirPath);
@@ -30,22 +28,28 @@ public class DownloadAction extends BaseAction {
 		String filePath = ServletActionContext.getServletContext().getRealPath(path);
 		System.out.println(filePath);
 		try {
-			FileInputStream in;
+			/*FileInputStream in;
 			in = new FileInputStream(filePath);
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			byte[] bytes = new byte[2048];
 			while( in.read(bytes) > 0){
-				out.write(bytes);
+				out.write(bytes);			
 			}
 			out.close();
 			in.close();
-			inputStream = new ByteArrayInputStream(out.toByteArray());
+			inputStream = new ByteArrayInputStream(out.toByteArray());*/
+			inputStream = new FileInputStream(filePath);
 		} catch (Exception e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setHeader("filename", fileName);
+		response.setHeader("type", type);		
+		File file = new File(filePath);
+		long contentLength = file.length();
+		response.setContentLengthLong(contentLength);
+		System.out.println("content length:"+contentLength);
 		return STREAM;
 	}
 	

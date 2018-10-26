@@ -33,26 +33,32 @@ public class ParamConverter extends DefaultTypeConverter {
 		if (toType == Date.class) {
 			System.out.println("convert to date");
 			Pattern pattern = Pattern.compile("[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}");
+			Pattern pattern2 = Pattern.compile("[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}");
 			Matcher matcher = pattern.matcher(str);
+			Matcher matcher2 = pattern2.matcher(str);
+			SimpleDateFormat format;
 			if (matcher.matches()) {
-				System.out.println("match date pattern");
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				try {
-					Date date = format.parse(str);
-					System.out.println("conver to date:" + format.format(date));
-					return date;
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					throw new RuntimeException();
-				}
+				System.out.println("match date pattern1");
+				format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			}else if(matcher2.matches()) {
+				System.out.println("match date pattern2");
+				 format = new SimpleDateFormat("yyyy-MM-dd");
 			} else {
+				throw new RuntimeException();
+			}
+			try {
+				Date date = format.parse(str);
+				System.out.println("conver to date:" + format.format(date));
+				return date;
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 				throw new RuntimeException();
 			}
 		} else if (toType == Status.class) {
 			Status status = new StatusConverter().convertToEntityAttribute(str);
 			System.out.println("convert to status:" + status);
-			if (status != null && status != Status.Unknown) // 从数据库查询结果允许转为unknown确保容错性，提交的参数不允许为unknown
+			if (status != null && status != Status.UNKNOWN) // 从数据库查询结果允许转为unknown确保容错性，提交的参数不允许为unknown
 				return status;
 		} else if (toType == SoftwareType.class) {
 			SoftwareType type = new SwTypeConverter().convertToEntityAttribute(str);

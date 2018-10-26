@@ -1,5 +1,7 @@
 package com.vince7839.action;
 
+import java.util.List;
+
 import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Platform;
 import com.vince7839.service.IPlatformService;
@@ -75,6 +77,10 @@ public class PlatformAction extends BaseAction implements ModelDriven<Platform> 
 
 	public String all() {
 		buildJson(true, NO_ERROR, platformService.all());
+		List<Platform> list = platformService.all();
+		for(Platform p:list) {
+			System.out.println(p.getProjects());
+		}
 		return FINISH;
 	}
 

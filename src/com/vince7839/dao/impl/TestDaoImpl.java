@@ -47,4 +47,10 @@ public class TestDaoImpl extends HibernateDaoSupport implements ITestDao {
 		return getHibernateTemplate().findByExample(t);
 	}
 
+	@Override
+	public List<Test> list() {
+		// TODO Auto-generated method stub
+		return getHibernateTemplate().loadAll(Test.class);
+	}
+
 }

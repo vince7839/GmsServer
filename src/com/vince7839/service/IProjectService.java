@@ -1,7 +1,7 @@
 package com.vince7839.service;
 
 import java.util.List;
-
+import com.vince7839.entity.Platform;
 import com.vince7839.entity.Project;
 
 public interface IProjectService {
@@ -13,4 +13,5 @@ public interface IProjectService {
 	boolean exists(Integer id);
 	boolean isNameExists(String name);
 	List<Project> list(Project p);
+	List<Project> listByPlatform(Platform p);
 }

@@ -31,7 +31,6 @@ public class JobBuilder {
 		if(!test.getName().equalsIgnoreCase(entity.getName())) {
 			throw new BuildTestException();
 		}
-		job.setStatus(Status.NA);
 		job.setTask(task);
 		job.setTest(test);
 		return job;

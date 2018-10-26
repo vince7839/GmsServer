@@ -14,8 +14,8 @@
 		<property name="show_sql">false</property>
         <mapping resource="com/vince7839/entity/Platform.hbm.xml"/>
         <mapping resource="com/vince7839/entity/Test.hbm.xml"/>
-        <!--这两个单独使用注解是因为要使用converter来转换枚举类型-->
-        <mapping class="com.vince7839.entity.Task"/>
+        <!--这3个单独使用注解是因为要使用converter来转换枚举类型和使用多对一来设置外键-->
+      <mapping class="com.vince7839.entity.Task"/> 
         <mapping class="com.vince7839.entity.Job"/>
         <mapping class="com.vince7839.entity.Project"/>
 	</session-factory>

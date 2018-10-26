@@ -50,31 +50,32 @@ public class TaskServiceImpl implements ITaskService {
 	@Override
 	public boolean exists(Integer id) {
 		// TODO Auto-generated method stub
-		 return get(id) != null;
+		 return id != null && get(id) != null;
 	}
 
 	@Override
 	public List<Task> listOrder() {
 		// TODO Auto-generated method stub
-		return dao.getByStatus(Status.Waiting);
+		return dao.getByStatus(Status.WAIT);
 	}
 
 	@Override
-	public List<Task> loadByPage(int page, int load) {
-		// TODO Auto-generated method stub
+	public List<Task> listByPage(int page, int load) {
+		// TODO Auto-generated method stub		
 		if(page > pageCount(load))
 			return null;
 		else 
-			return dao.loadByPage(page, load);
+			return dao.listByPage(page, load);
 	}
 
 	@Override
 	public int pageCount(int load) {
 		// TODO Auto-generated method stub
-		int size = all().size();
+		int size = all().size();		
 		int remain = size % load;
 		int completePage = size / load;
 		int pageCount = completePage + (remain == 0 ? 0 : 1);
+		System.out.println("all task size:" + size + " load:" + load + " page Count:" + pageCount);
 		return pageCount;
 	}
 }

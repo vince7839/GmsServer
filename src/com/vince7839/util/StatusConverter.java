@@ -17,22 +17,22 @@ public class StatusConverter implements AttributeConverter<Status, String> {
 		// TODO Auto-generated method stub
 	//	System.out.println("[StatusConverter]convert enum from:" + column);
 		Status status = null;
-		if("waiting".equalsIgnoreCase(column)) {
-			status = Status.Waiting;
-		}else if("passed".equalsIgnoreCase(column)) {
-			status = Status.Passed;
-		}else if("failed".equalsIgnoreCase(column)) {
-			status = Status.Failed;
-		}else if("testing".equalsIgnoreCase(column)) {
-			status = Status.Testing;
-		}else if("stopped".equalsIgnoreCase(column)) {
-			status = Status.Stopped;
-		}else if("abandoned".equalsIgnoreCase(column)) {
-			status = Status.Abandoned;
-		}else if("na".equalsIgnoreCase(column)) {
-			status = Status.NA;
-		} else {
-			status = Status.Unknown;
+		if("wait".equalsIgnoreCase(column)) {
+			status = Status.WAIT;
+		}else if("pass".equalsIgnoreCase(column)) {
+			status = Status.PASS;
+		}else if("fail".equalsIgnoreCase(column)) {
+			status = Status.FAIL;
+		}else if("test".equalsIgnoreCase(column)) {
+			status = Status.TEST;
+		}else if("stop".equalsIgnoreCase(column)) {
+			status = Status.STOP;
+		}else if("retest".equalsIgnoreCase(column)) {
+			status = Status.RETEST;
+		}else if("debug".equalsIgnoreCase(column)) {
+			status = Status.DEBUG;
+		}else {
+			status = Status.UNKNOWN;
 		}
 		return status;
 	}

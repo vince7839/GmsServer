@@ -58,4 +58,10 @@ public class TestServiceImpl implements ITestService {
 		return !dao.getByName(name).isEmpty();
 	}
 
+	@Override
+	public List<Test> list() {
+		// TODO Auto-generated method stub
+		return dao.list();
+	}
+
 }

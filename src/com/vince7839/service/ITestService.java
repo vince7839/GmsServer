@@ -10,6 +10,7 @@ public interface ITestService {
 	void update(Test t);
 	Test get(Integer id);
 	List<Test> all();
+	List<Test> list();
 	boolean exists(Integer id);
 	boolean isNameExists(String name);
 }

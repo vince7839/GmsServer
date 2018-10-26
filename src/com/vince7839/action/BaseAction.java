@@ -21,7 +21,7 @@ public class BaseAction extends ActionSupport implements Preparable{
 	final static String FINISH = "finish";
 	final static String STREAM = "stream";
 	final static String FAIL = "fail"; 
-
+	final static String ERROR = "error"; 
 	final static int NO_ERROR = 0;
 	final static int UNKNOWN_ERROR = 1;
 	final static int NO_SUCH_TARGET = 2;

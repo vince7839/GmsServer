@@ -5,71 +5,91 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 import com.vince7839.entity.Job;
 import com.vince7839.entity.Platform;
 import com.vince7839.entity.Project;
 import com.vince7839.entity.Status;
+import com.vince7839.entity.Task;
 import com.vince7839.entity.Test;
 import com.vince7839.exception.MultiResultException;
 import com.vince7839.service.IJobService;
+import com.vince7839.service.ITaskService;
 import com.vince7839.util.JobFilter;
 
 public class JobAction extends BaseAction implements ModelDriven<Job> {
 	IJobService jobService;
 	Job model;
-	Integer load;
-	Integer page;
+	Integer load = 10;
+	Integer page = 0;
 	Platform platform;
 	Project project;
 	Test t;
+	
+	public String save() {
+		if(model.getTask() == null||model.getTest() == null) {
+			buildJson(false, NO_SUCH_TARGET, null);
+		}
+		jobService.save(model);
+		return FINISH;
+	} 
+		
 	public String update() {
 		System.out.println("job_update:" + model);
-		Job j = null;
-		if (model.getId() != null) {
-			j = jobService.get(model.getId());
-		} else {
-			if (model.getTask() != null && model.getTest() != null) {
-				try {
-					j = jobService.find(model.getTask(), model.getTest());
-				} catch (MultiResultException e) {
-					buildJson(false, MULTI_RESULT_FOUND, null);
-					return FINISH;
-				}
-			}
+		Job job = jobService.get(model.getId());
+		if (job == null) {
+			addActionMessage("要修改的测试任务为空！id=" + model.getId());
+			return ERROR;
 		}
-		if (j == null) {
-			buildJson(false, NO_SUCH_TARGET, null);
-			return FINISH;
-		}
-		Status status = model.getStatus();
-		if (status != null)
-			j.setStatus(status);
-		String tester = model.getTester();
-		if (tester != null)
-			j.setTester(tester);
-		String toolVersion = model.getToolVersion();
-		if (toolVersion != null)
-			j.setToolVersion(toolVersion);
-		String summary = model.getSummary();
-		if (summary != null)
-			j.setSummary(summary);
-		Date startDate = model.getStartDate();
-		if (startDate != null)
-			j.setStartDate(startDate);
-		Date endDate = model.getEndDate();
-		if (endDate != null)
-			j.setEndDate(endDate);
+
+		if (model.getStatus() != null)
+			job.setStatus(model.getStatus());
+
+		if (model.getTester() != null)
+			job.setTester(model.getTester());
+
+		if (model.getToolVersion() != null)
+			job.setToolVersion(model.getToolVersion());
+
+		if (model.getSummary() != null)
+			job.setSummary(model.getSummary());
+
+		if (model.getStartDate() != null)
+			job.setStartDate(model.getStartDate());
+
+		if (model.getEndDate() != null)
+			job.setEndDate(model.getEndDate());
+
+		jobService.update(job);
 		buildJson(true, NO_ERROR, null);
-		jobService.update(j);
 		return FINISH;
 	}
 
 	public String get() {
+		System.out.println(model);
 		Job j = jobService.get(model.getId());
 		List<Job> list = new ArrayList<Job>();
 		list.add(j);
 		buildJson(true, NO_ERROR, list);
+		return FINISH;
+	}
+	
+	public String find() {
+		Task task = model.getTask();
+		Test test = model.getTest();
+		if(task != null && test != null) {			
+			Set<Job> jobs = task.getJobs();
+			for(Job job:jobs) {
+				if(job.getTest().getId() == test.getId()) {
+					buildJson(true, NO_ERROR, job);
+					return FINISH;
+				}
+			}
+		}
+		buildJson(false, NO_SUCH_TARGET, null);
 		return FINISH;
 	}
 
@@ -94,12 +114,6 @@ public class JobAction extends BaseAction implements ModelDriven<Job> {
 
 	public String load() {
 		JobFilter filter = new JobFilter(platform,project,t);
-		if(page == null) {
-			page = 0;
-		}
-		if(load == null) {
-			load = 10;
-		}
 		List<Job> list = jobService.load(filter, page, load);
 		buildJson(true, NO_ERROR, list);
 		return FINISH;
@@ -164,4 +178,5 @@ public class JobAction extends BaseAction implements ModelDriven<Job> {
 	public void setT(Test t) {
 		this.t = t;
 	}
+
 }

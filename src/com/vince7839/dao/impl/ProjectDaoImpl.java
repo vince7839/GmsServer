@@ -3,7 +3,9 @@ package com.vince7839.dao.impl;
 import java.util.List;
 
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+
 import com.vince7839.dao.IProjectDao;
+import com.vince7839.entity.Platform;
 import com.vince7839.entity.Project;
 
 public class ProjectDaoImpl extends HibernateDaoSupport implements IProjectDao {
@@ -47,15 +49,17 @@ public class ProjectDaoImpl extends HibernateDaoSupport implements IProjectDao {
 	}
 
 	@Override
-	public List<Project> listProjectByPlatform(Integer platformId) {
+	public List<Project> listByPlatform(Platform p) {
 		// TODO Auto-generated method stub
-		
-		return null;
+		Project example = new Project();
+		example.setPlatform(p);
+		return getHibernateTemplate().findByExample(example);
 	}
 
 	@Override
 	public List<Project> list(Project p) {
 		// TODO Auto-generated method stub
+		System.out.println(p);
 		return getHibernateTemplate().findByExample(p);
 	}
 

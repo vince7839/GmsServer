@@ -3,71 +3,135 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
-    <package name="vince" namespace="/" extends="struts-default,json-default">
-    
-    <global-results>
-     	<result name="input" type="json">
-        	<param name="root">result</param> 
-       	</result>
-        <result name="finish" type="json">
-			<param name="root">result</param>			
-        </result>       	
-    </global-results>
-    
-        <action name="project_*" class="projectAction" method="{1}">
-            <result name="get" type="json">
-				<param name="root">project</param> 
-            </result>
-            <result name="all" type="json">
-				<param name="root">list</param> 
-            </result>            
-            <allowed-methods>save,delete,update,get,all</allowed-methods>
-        </action>
-        
-        <action name="platform_*" class="platformAction" method="{1}">
-            <result name="get" type="json">
-				<param name="root">platform</param> 
-            </result>
-            <result name="all" type="json">
-				<param name="root">list</param> 
-            </result>            
-            <allowed-methods>save,delete,update,get,all</allowed-methods>
-        </action>        
-        
-        <action name="task_*" class="taskAction" method="{1}">
-            <result name="get" type="json">
-				<param name="root">task</param> 
-            </result>
-            <result name="all" type="json">
-				<param name="root">list</param> 
-            </result>
-            <allowed-methods>save,delete,update,get,all,order,size,list</allowed-methods>
-        </action>
-        
-         <action name="test_*" class="testAction" method="{1}">
-            <result name="get" type="json">
-				<param name="root">test</param> 
-            </result>
-            <result name="all" type="json">
-				<param name="root">list</param> 
-            </result>            
-            <allowed-methods>save,delete,update,get,all</allowed-methods>
-            </action>
-            
-         <action name="job_*" class="jobAction" method="{1}">
-            <allowed-methods>update,get,test,list,size,load</allowed-methods>
-            </action>
-            
-         <action name="download_*" class="downloadAction" method="{1}">
-         		<result name="stream" type="stream">
-         		<param name="contentDisposition">filename=${fileName}</param>
-         		<param name="filename">filename=${fileName}</param>
-				<param name="contentType">multipart/form-data</param>  
-				<param name="inputName">inputStream</param>  
-				<param name="bufferSize">2048</param>  
+	<package name="vince" namespace="/" extends="struts-default,json-default">
+
+		<global-results>
+			<result name="input" type="json">
+				<param name="root">result</param>
 			</result>
-            <allowed-methods>query,file</allowed-methods>
-            </action>              
-            
-    </package>    
+			<result name="finish" type="json">
+				<param name="root">result</param>
+			</result>
+			<result name="error">input.jsp</result>
+		</global-results>
+
+		<action name="project_*" class="projectAction" method="{1}">
+			<result name="get" type="json">
+				<param name="root">project</param>
+			</result>
+			<result name="all" type="json">
+				<param name="root">list</param>
+			</result>
+			<allowed-methods>save,delete,update,get,all</allowed-methods>
+		</action>
+
+		<action name="platform_*" class="platformAction" method="{1}">
+			<result name="get" type="json">
+				<param name="root">platform</param>
+			</result>
+			<result name="all" type="json">
+				<param name="root">list</param>
+			</result>
+			<allowed-methods>save,delete,update,get,all</allowed-methods>
+		</action>
+
+		<action name="task_*" class="taskAction" method="{1}">
+			<result name="get" type="json">
+				<param name="root">task</param>
+			</result>
+			<result name="all" type="json">
+				<param name="root">list</param>
+			</result>
+			<allowed-methods>save,delete,get,all,order,size,list</allowed-methods>
+		</action>
+
+		<action name="task_update" class="taskAction" method="update">
+			<!--  <result name="finish" type="redirectAction">
+				<param name="actionName">modify</param>
+				<param name="task">${currentId}</param>
+			</result>
+			-->			
+		</action>
+
+		<action name="test_*" class="testAction" method="{1}">
+			<result name="get" type="json">
+				<param name="root">test</param>
+			</result>
+			<result name="all" type="json">
+				<param name="root">list</param>
+			</result>
+			<allowed-methods>save,delete,update,get,all</allowed-methods>
+		</action>
+
+		<action name="job_*" class="jobAction" method="{1}">
+			<allowed-methods>save,get,test,list,size,load</allowed-methods>
+		</action>
+		
+	<action name="job_update" class="jobAction" method="update">
+	<!--  
+			<result name="finish" type="redirectAction">
+				<param name="actionName">modify</param>
+				<param name="job">${currentId}</param>
+			</result>
+			-->
+	</action>
+		<action name="download_*" class="downloadAction" method="{1}">
+			<result name="stream" type="stream">
+				<param name="contentDisposition">filename=${fileName}</param>
+				<param name="contentType">multipart/form-data</param>
+				<param name="inputName">inputStream</param>
+				<param name="bufferSize">2048</param>
+			</result>
+			<allowed-methods>list,file</allowed-methods>
+		</action>
+
+		<action name="task" class="taskAction">
+			<result name="task">/page/frontend/index.jsp</result>
+		</action>
+
+		<action name="table" class="tableAction">
+			<result name="finish">/page/frontend/table.jsp</result>
+		</action>
+
+		<action name="order" class="orderAction" method="order">
+			<result name="finish">/page/frontend/order.jsp</result>
+		</action>
+
+		<action name="doOrder" class="orderAction" method="doOrder">
+			<result name="finish" type="redirect">query</result>
+		</action>
+
+		<action name="query" class="tableAction" method="query">
+			<result name="finish">/page/frontend/query.jsp</result>
+		</action>
+
+		<action name="allocate" class="allocateAction" method="allocate">
+			<result name="finish">/page/backend/allocate.jsp</result>
+		</action>
+
+		<action name="doAllocate" class="allocateAction" method="doAllocate">
+			<result name="finish" type="redirect">table</result>
+		</action>
+
+		<action name="modify" class="modifyAction" method="modify">
+			<result name="finish">/page/frontend/modify.jsp</result>
+		</action>
+
+		<action name="login" class="userAction" method="login">
+		</action>
+		
+		<action name="logout" class="userAction" method="logout">
+		</action>
+		<action name="admin" class="globalAction" method="admin">
+		<result name="finish">/page/backend/admin.jsp</result>
+		</action>
+		
+		<action name="job_find" class="jobAction" method="find">
+		</action>		
+
+		<action name="guide" class="globalAction" method="guide">
+		<result name="finish">/page/frontend/guide.jsp</result>
+		</action>	
+		
+	</package>
 </struts>

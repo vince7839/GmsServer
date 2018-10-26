@@ -1,13 +1,15 @@
 package com.vince7839.dao.impl;
 
 import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+
 import com.vince7839.dao.IJobDao;
 import com.vince7839.entity.Job;
-import com.vince7839.entity.Status;
 import com.vince7839.entity.Task;
 import com.vince7839.entity.Test;
 import com.vince7839.util.JobFilter;
@@ -70,16 +72,16 @@ public class JobDaoImpl extends HibernateDaoSupport implements IJobDao {
 	public List<Job> load(JobFilter filter, int page, int load) {
 		// TODO Auto-generated method stub
 		HibernateTemplate template = getHibernateTemplate();
-		List<Job> list = (List<Job>) template.findByCriteria(buildCriteria(filter), page * load, load);
+		List<Job> list = (List<Job>) template.findByCriteria(buildCriteria(filter), (page-1) * load, load);
 		System.out.println("load size:" + list.size());
 		return list;
 	}
 
 	private DetachedCriteria buildCriteria(JobFilter filter) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Job.class);
+	//	criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		criteria.createAlias("task", "task");
 		criteria.createAlias("task.project", "project");
-		criteria.add(Restrictions.ne("status", Status.NA));
 		if (filter.getTest() != null) {
 			criteria.add(Restrictions.eq("test.id", filter.getTest().getId()));
 		}
@@ -95,6 +97,7 @@ public class JobDaoImpl extends HibernateDaoSupport implements IJobDao {
 	public List<Job> findByTask(Task task) {
 		// TODO Auto-generated method stub
 		DetachedCriteria criteria = DetachedCriteria.forClass(Job.class);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		criteria.add(Restrictions.eq("task.id", task.getId()));
 		List<Job> list = (List<Job>) getHibernateTemplate().findByCriteria(criteria);
 		return list;
@@ -104,6 +107,7 @@ public class JobDaoImpl extends HibernateDaoSupport implements IJobDao {
 	public List<Job> find(Task task, Test test) {
 		// TODO Auto-generated method stub
 		DetachedCriteria criteria = DetachedCriteria.forClass(Job.class);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		criteria.add(Restrictions.eq("task", task));
 		criteria.add(Restrictions.eq("test", test));
 		List<Job> list = (List<Job>)getHibernateTemplate().findByCriteria(criteria);

@@ -10,5 +10,6 @@ public interface ITestDao {
 	void update(Test t);
 	Test get(Integer id);
 	List<Test> all();
+	List<Test> list();
 	List<Test> getByName(String name);
 }

@@ -2,6 +2,8 @@ package com.vince7839.entity;
 
 
 import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -10,7 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -22,6 +28,7 @@ public class Task {
 	Integer bugId;
 	SoftwareType softwareType;
 	String summary;
+	String leader;
 	Date startDate; //实际开始日期
 	Date endDate; //实际完成日期
 	Date orderDate;//建立预约的时间
@@ -29,6 +36,7 @@ public class Task {
 	Date expectEndDate; //期望完成时间
 	Date scheduleDate; //预计安排的时间
 	Project project;
+	Set<Job> jobs;
 	@Column(name="summary")
 	public String getSummary() {
 		return summary;
@@ -147,5 +155,21 @@ public class Task {
 				+ softwareType + ", summary=" + summary + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", orderDate=" + orderDate + ", expectStartDate=" + expectStartDate + ", expectEndDate="
 				+ expectEndDate + ", scheduleDate=" + scheduleDate + ", project=" + project + "]";
+	}
+	@OneToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinColumn(name="task_id")
+	public Set<Job> getJobs() {
+		return jobs;
+	}
+	public void setJobs(Set<Job> jobs) {
+		this.jobs = jobs;
+	}
+	@Column(name="leader")
+	public String getLeader() {
+		return leader;
+	}
+	public void setLeader(String leader) {
+		this.leader = leader;
 	}
 }

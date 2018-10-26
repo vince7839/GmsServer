@@ -12,6 +12,6 @@ public interface ITaskService {
 	List<Task> all();
 	boolean exists(Integer id);
 	List<Task> listOrder();
-	List<Task> loadByPage(int page,int load);
+	List<Task> listByPage(int page,int load);
 	int pageCount(int load);
 }

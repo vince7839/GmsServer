@@ -1,8 +1,11 @@
 package com.vince7839.action;
 
 import java.util.List;
+import java.util.Set;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
+import com.vince7839.entity.Platform;
 import com.vince7839.entity.Project;
 import com.vince7839.service.IPlatformService;
 import com.vince7839.service.IProjectService;
@@ -11,7 +14,7 @@ public class ProjectAction extends BaseAction implements ModelDriven<Project> {
 	IProjectService projectService;
 	IPlatformService platformService;
 	Project model;
-
+	Platform p;
 	public String save() {
 		if (model.getPlatform() == null) {
 			buildJson(false, NO_SUCH_TARGET, null);
@@ -83,8 +86,13 @@ public class ProjectAction extends BaseAction implements ModelDriven<Project> {
 	}
 
 	public String list() {
-		List<Project> list = projectService.list(model);
-		buildJson(true, NO_ERROR, list);
+		System.out.println(p);
+		Set<Project> set = null;
+		if(p != null) {
+			set = p.getProjects();			
+		}
+		System.out.println(set);
+		buildJson(true, NO_ERROR, set);
 		return FINISH;
 	}
 
@@ -109,5 +117,13 @@ public class ProjectAction extends BaseAction implements ModelDriven<Project> {
 		// TODO Auto-generated method stub
 		model = new Project();
 		return model;
+	}
+
+	public Platform getP() {
+		return p;
+	}
+
+	public void setP(Platform p) {
+		this.p = p;
 	}
 }

@@ -2,6 +2,7 @@ package com.vince7839.dao;
 
 import java.util.List;
 
+import com.vince7839.entity.Platform;
 import com.vince7839.entity.Project;
 
 public interface IProjectDao {
@@ -11,6 +12,6 @@ public interface IProjectDao {
 	Project get(Integer id);
 	List<Project> all();
 	List<Project> getByName(String name);
-	List<Project> listProjectByPlatform(Integer platformId);
+	List<Project> listByPlatform(Platform p);
 	List<Project> list(Project p);
 }

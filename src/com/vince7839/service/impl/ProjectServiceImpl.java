@@ -3,11 +3,13 @@ package com.vince7839.service.impl;
 import java.util.List;
 
 import com.vince7839.dao.IProjectDao;
+import com.vince7839.entity.Platform;
 import com.vince7839.entity.Project;
 import com.vince7839.service.IProjectService;
 
 public class ProjectServiceImpl implements IProjectService{
 	IProjectDao dao;
+
 	@Override
 	public void delete(Project p) {
 		// TODO Auto-generated method stub
@@ -62,6 +64,12 @@ public class ProjectServiceImpl implements IProjectService{
 	public List<Project> list(Project p) {
 		// TODO Auto-generated method stub
 		return dao.list(p);
+	}
+
+	@Override
+	public List<Project> listByPlatform(Platform p) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

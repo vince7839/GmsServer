@@ -1,13 +1,13 @@
 package com.vince7839.entity;
 
 public enum Status {
-	Waiting,
-	Testing,
-	Passed,
-	Failed,
-	Stopped,
-	Abandoned,
-	NA,
-	Unknown
+	PASS,
+	FAIL,
+	WAIT,
+	TEST,
+	RETEST,
+	DEBUG,
+	STOP,
+	UNKNOWN
 	;
 }
